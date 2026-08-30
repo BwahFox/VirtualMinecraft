@@ -76,7 +76,7 @@ public final class WorldComponent implements Component {
 
 	@Override
 	public JsonElement invoke(final String method, final JsonArray args) throws BusException {
-		final BlockPos self = be.getBlockPos();
+		final BlockPos self = be.hostPos();
 		switch (method) {
 			case "getPosition": {
 				final JsonObject o = new JsonObject();
@@ -170,7 +170,7 @@ public final class WorldComponent implements Component {
 		if (!s.getFluidState().isEmpty()) {
 			o.addProperty("fluid", BuiltInRegistries.FLUID.getKey(s.getFluidState().getType()).toString());
 		}
-		final BlockPos d = p.subtract(be.getBlockPos());
+		final BlockPos d = p.subtract(be.hostPos());
 		o.addProperty("dx", d.getX());
 		o.addProperty("dy", d.getY());
 		o.addProperty("dz", d.getZ());

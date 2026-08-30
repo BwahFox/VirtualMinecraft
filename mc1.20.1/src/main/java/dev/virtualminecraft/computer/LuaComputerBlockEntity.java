@@ -36,6 +36,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import dev.virtualminecraft.util.Nbt;
 import dev.virtualminecraft.util.Nums;
 import org.jspecify.annotations.Nullable;
+import net.minecraft.world.level.Level;
 
 /**
  * The Computer block's entity (ROADMAP §7h §8): the world-side face of a {@link LuaComputer}. Holds what must
@@ -829,6 +830,28 @@ public class LuaComputerBlockEntity extends BlockEntity implements ScreenSource,
 	private static final int SLEEP_GRACE_TICKS = 100;
 
 	// ---- ScreenSource ----
+
+	// ScreenSource / BusHost position accessors under their own names: see ScreenSource's note on why these must not
+	// be called getBlockPos / getBlockState / getLevel (the 1.20.1 remap would leave the interface methods unimplemented).
+	@Override
+	public BlockPos screenPos() {
+		return getBlockPos();
+	}
+
+	@Override
+	public BlockPos hostPos() {
+		return getBlockPos();
+	}
+
+	@Override
+	public BlockState hostState() {
+		return getBlockState();
+	}
+
+	@Override
+	public @Nullable Level hostLevel() {
+		return getLevel();
+	}
 
 	@Override
 	public UUID screenId() {

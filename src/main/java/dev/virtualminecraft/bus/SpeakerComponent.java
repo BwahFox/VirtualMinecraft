@@ -74,7 +74,7 @@ public final class SpeakerComponent implements Component {
 
 	@Override
 	public JsonElement invoke(final String method, final JsonArray args) throws BusException {
-		final BlockPos pos = be.getBlockPos();
+		final BlockPos pos = be.hostPos();
 		switch (method) {
 			case "getInstruments": {
 				final JsonArray out = new JsonArray();

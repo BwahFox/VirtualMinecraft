@@ -41,6 +41,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import dev.virtualminecraft.util.Nbt;
 import org.jspecify.annotations.Nullable;
+import net.minecraft.world.level.Level;
 
 public class ComputerBlockEntity extends BlockEntity implements ScreenSource, dev.virtualminecraft.bus.BusHost {
 	private UUID vmId = UUID.randomUUID();
@@ -129,6 +130,28 @@ public class ComputerBlockEntity extends BlockEntity implements ScreenSource, de
 	}
 
 	// ---- ScreenSource: what a monitor needs from us ----
+
+	// ScreenSource / BusHost position accessors under their own names: see ScreenSource's note on why these must not
+	// be called getBlockPos / getBlockState / getLevel (the 1.20.1 remap would leave the interface methods unimplemented).
+	@Override
+	public BlockPos screenPos() {
+		return getBlockPos();
+	}
+
+	@Override
+	public BlockPos hostPos() {
+		return getBlockPos();
+	}
+
+	@Override
+	public BlockState hostState() {
+		return getBlockState();
+	}
+
+	@Override
+	public @Nullable Level hostLevel() {
+		return getLevel();
+	}
 
 	@Override
 	public UUID screenId() {

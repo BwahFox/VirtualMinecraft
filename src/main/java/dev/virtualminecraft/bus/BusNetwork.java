@@ -147,7 +147,7 @@ public final class BusNetwork {
 		BusHost best = null;
 		BlockPos bestPos = null;
 		for (final BusHost c : computersOnNetwork(level, pos)) {
-			final BlockPos p = c.getBlockPos();
+			final BlockPos p = c.hostPos();
 			if (bestPos == null || p.distSqr(pos) < bestPos.distSqr(pos) || (p.distSqr(pos) == bestPos.distSqr(pos) && p.compareTo(bestPos) < 0)) {
 				best = c;
 				bestPos = p;

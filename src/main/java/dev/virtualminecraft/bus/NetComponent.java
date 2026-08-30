@@ -95,7 +95,7 @@ public final class NetComponent implements Component {
 					o.addProperty("loaded", p.host != null);
 					out.add(o);
 				}
-				if (BusNetwork.runHitCap(level, be.getBlockPos())) {
+				if (BusNetwork.runHitCap(level, be.hostPos())) {
 					// A run that stops at the cap looks exactly like a run with a gap in it. Say so, rather than
 					// letting someone spend an evening looking for a cable that is fine (§9 U9).
 					final JsonObject note = new JsonObject();
@@ -168,15 +168,15 @@ public final class NetComponent implements Component {
 		}
 		// §9 U9: the same run as remembered, which is how a machine in an unloaded chunk gets into this list at
 		// all. Loaded ones were already found above, so what this adds is exactly the sleeping ones.
-		for (final BusRegistry.Reachable r : BusRegistry.onRun(level, be.getBlockPos())) {
+		for (final BusRegistry.Reachable r : BusRegistry.onRun(level, be.hostPos())) {
 			if (seen.add(r.id())) {
 				out.add(new Peer(BusRegistry.awakeHost(level, r.pos()), r.id(), r.name(), r.pos(),
-					BusNetwork.offsetLocation(be.getBlockPos(), r.pos())));
+					BusNetwork.offsetLocation(be.hostPos(), r.pos())));
 			}
 		}
 		for (final BusHost h : Modems.peers(level, be)) {
 			if (h != be && seen.add(h.busId())) {
-				out.add(new Peer(h, h.busId(), h.busName(), h.getBlockPos().immutable(), "wireless"));
+				out.add(new Peer(h, h.busId(), h.busName(), h.hostPos().immutable(), "wireless"));
 			}
 		}
 		return out;

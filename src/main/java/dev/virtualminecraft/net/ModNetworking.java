@@ -34,7 +34,7 @@ public final class ModNetworking {
 			// text screen with viewers too. Distance is the server's call, not the client's: past viewDistance the
 			// heartbeat is dropped, so a far player is simply not a viewer.
 			final ScreenSource source = ScreenSources.find(context.server(), payload.vm());
-			if (source != null && !context.player().blockPosition().closerThan(source.getBlockPos(), VmcConfig.get().viewDistance)) {
+			if (source != null && !context.player().blockPosition().closerThan(source.screenPos(), VmcConfig.get().viewDistance)) {
 				return;
 			}
 			ScreenViewers.get(context.server()).heartbeat(payload.vm(), context.player(), payload.needFullFrame(), payload.lod());
@@ -46,7 +46,7 @@ public final class ModNetworking {
 			final ServerPlayer player = context.player();
 			final ScreenSource source = ScreenSources.find(context.server(), payload.vm());
 			if (source != null) {
-				if (player.blockPosition().closerThan(source.getBlockPos(), VmcConfig.get().viewDistance)) {
+				if (player.blockPosition().closerThan(source.screenPos(), VmcConfig.get().viewDistance)) {
 					source.screenInput(player, payload.events());
 				}
 				return;
@@ -60,7 +60,7 @@ public final class ModNetworking {
 		ServerPlayNetworking.registerGlobalReceiver(ScreenPastePayload.TYPE, (payload, context) -> {
 			final ServerPlayer player = context.player();
 			final ScreenSource source = ScreenSources.find(context.server(), payload.vm());
-			if (source != null && player.blockPosition().closerThan(source.getBlockPos(), VmcConfig.get().viewDistance)) {
+			if (source != null && player.blockPosition().closerThan(source.screenPos(), VmcConfig.get().viewDistance)) {
 				source.screenPaste(player, payload.text());
 			}
 		});

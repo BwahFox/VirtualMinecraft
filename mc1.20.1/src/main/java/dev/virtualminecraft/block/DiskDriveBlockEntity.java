@@ -52,7 +52,7 @@ public class DiskDriveBlockEntity extends BlockEntity {
 
 	/** Bus location of this drive as seen by {@code computer}: a side name, or a {@code dx,dy,dz} offset on cable. */
 	public String locationOn(final dev.virtualminecraft.bus.BusHost computer) {
-		return BusNetwork.locationOf(computer.getBlockPos(), worldPosition);
+		return BusNetwork.locationOf(computer.hostPos(), worldPosition);
 	}
 
 	/** Server: puts {@code one} (a single removable disk) into the drive. Reports to the player and returns success. */

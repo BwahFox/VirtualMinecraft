@@ -172,15 +172,15 @@ public final class BusRegistry {
 	 */
 	public static void record(final ServerLevel level, final BusHost host) {
 		final Level1 l = of(level);
-		final long key = host.getBlockPos().asLong();
+		final long key = host.hostPos().asLong();
 		final Host was = l.hosts.get(key);
-		final Host now = new Host(host.getBlockPos().immutable(), host.busId(), host.busName());
+		final Host now = new Host(host.hostPos().immutable(), host.busId(), host.busName());
 		if (was == null || !was.equals(now)) {
 			l.hosts.put(key, now);
 			dirty = true;
 		}
 		final int seconds = dev.virtualminecraft.config.VmcConfig.get().busRebuildSeconds;
-		for (final Net net : netsAt(level, host.getBlockPos())) {
+		for (final Net net : netsAt(level, host.hostPos())) {
 			// A run walked before this machine existed does not know about it — this is how a newly placed
 			// computer joins one, without the block classes having to say so.
 			boolean stale = !net.hosts.contains(key);
@@ -192,7 +192,7 @@ public final class BusRegistry {
 				discard(l, net);
 			}
 		}
-		netsAt(level, host.getBlockPos()); // rebuild whatever was just thrown away
+		netsAt(level, host.hostPos()); // rebuild whatever was just thrown away
 	}
 
 	// ------------------------------------------------------------------------------------------- networks

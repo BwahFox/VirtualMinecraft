@@ -35,11 +35,11 @@ public interface BusHost {
 	/** Shown as the prefix of chat lines and in messages. */
 	String busName();
 
-	BlockPos getBlockPos();
+	BlockPos hostPos();
 
-	BlockState getBlockState();
+	BlockState hostState();
 
-	@Nullable Level getLevel();
+	@Nullable Level hostLevel();
 
 	/** The block's facing, for relative side names. */
 	Direction facing();

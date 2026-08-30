@@ -112,7 +112,7 @@ public final class Modems {
 		final Set<BlockPos> seen = new LinkedHashSet<>();
 		for (final BlockPos modem : inRange(level, mine)) {
 			for (final BusHost h : hostsOf(level, modem)) {
-				if (seen.add(h.getBlockPos().immutable())) {
+				if (seen.add(h.hostPos().immutable())) {
 					out.add(h);
 				}
 			}

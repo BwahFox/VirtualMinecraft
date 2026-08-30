@@ -48,7 +48,7 @@ public final class ScreenComponent implements Component {
 
 	private ScreenComponent(final BusHost computer, final MonitorBlockEntity monitor) {
 		this.monitor = monitor;
-		final BlockPos d = monitor.getBlockPos().subtract(computer.getBlockPos());
+		final BlockPos d = monitor.getBlockPos().subtract(computer.hostPos());
 		this.location = d.getX() + "," + d.getY() + "," + d.getZ();
 		this.address = Component.addressOf(computer.busId(), TYPE, location);
 	}

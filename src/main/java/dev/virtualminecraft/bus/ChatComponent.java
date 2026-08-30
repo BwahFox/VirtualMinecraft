@@ -119,7 +119,7 @@ public final class ChatComponent implements Component {
 	}
 
 	private List<ServerPlayer> inRange() {
-		return playersInRange(level, be.getBlockPos());
+		return playersInRange(level, be.hostPos());
 	}
 
 	static List<ServerPlayer> playersInRange(final ServerLevel level, final BlockPos pos) {
@@ -195,10 +195,10 @@ public final class ChatComponent implements Component {
 					continue;
 				}
 				final BusHost be = vm.computer();
-				if (be == null || be.getLevel() != sender.level()) {
+				if (be == null || be.hostLevel() != sender.level()) {
 					continue;
 				}
-				final BlockPos pos = be.getBlockPos();
+				final BlockPos pos = be.hostPos();
 				final double d2 = sender.distanceToSqr(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
 				if (range >= 0 && d2 > (double) range * range) {
 					continue;

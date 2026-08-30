@@ -70,7 +70,7 @@ public final class InventoryComponent implements Component {
 				continue;
 			}
 			// The face we touch only exists for a neighbour; a container out on cable gets the unsided view.
-			final Direction face = faceTowards(computer.getBlockPos(), p);
+			final Direction face = faceTowards(computer.hostPos(), p);
 			final SlottedStorage<ItemVariant> s = findStorage(level, p, face);
 			if (s != null) {
 				out.add(new InventoryComponent(level, computer, e.getValue(), p, s));

@@ -14,14 +14,18 @@ import net.minecraft.server.level.ServerPlayer;
  * {@link #screenId()}, so anything that can push frames under a UUID can drive a monitor — the VM computer today,
  * the in-JVM computer of milestone 7 next — without the monitor knowing which it is.
  * <p>
- * Implementations are block entities; {@link #getBlockPos()} is satisfied by {@code BlockEntity} itself.
+ * Implementations are block entities. The methods deliberately do NOT share a name with any {@code BlockEntity}
+ * method ({@code getBlockPos} and friends): the 1.20.1 jar is remapped to intermediary names, which renames
+ * {@code BlockEntity.getBlockPos} to {@code method_11016} but leaves an interface's own {@code getBlockPos} alone —
+ * so nothing implements it any more and the first call is an {@code AbstractMethodError} (v1.0.1, 2026-08-30).
+ * The 1.20.1 release jar is checked for this by {@code tools/check-remap-collisions.py}.
  */
 public interface ScreenSource {
 	/** The UUID frames for this screen are streamed under. Stable across restarts. */
 	UUID screenId();
 
 	/** Where the machine is — the monitor's audio position, and the origin for component locations. */
-	BlockPos getBlockPos();
+	BlockPos screenPos();
 
 	/** Shown as the title of the full-screen view. */
 	String screenName();

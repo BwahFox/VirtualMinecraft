@@ -25,7 +25,7 @@ public final class ScreenSources {
 	}
 
 	public static void note(final ScreenSource source, final ServerLevel level) {
-		BY_ID.put(source.screenId(), new Ref(level.dimension(), source.getBlockPos().immutable()));
+		BY_ID.put(source.screenId(), new Ref(level.dimension(), source.screenPos().immutable()));
 	}
 
 	/** The loaded source with this id, or null if it is unloaded, gone, or was never seen. Never loads a chunk. */

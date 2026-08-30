@@ -66,6 +66,17 @@ Item data that is a **data component** on 26.2 (`virtualminecraft:disk`, `comput
 
 ## Checking it
 
+Before a release, check the *built* jar — the dev client runs under named mappings and cannot show remap
+breakage (1.0.1 shipped with every Computer crashing on tick one because of exactly that; TESTING has the story):
+
+```sh
+tools/check-remap-collisions.py mc1.20.1/build/libs/virtualminecraft-<ver>+mc1.20.1.jar   # from the repo root
+```
+
+then launch the jar in a real 1.20.1 instance and open a Computer. The rule behind it: an interface of ours must
+not declare a method whose name and signature a Minecraft superclass of an implementor already has (`getBlockPos`,
+`getLevel`, …) — the remap renames the superclass's, not the interface's, and nothing implements it any more.
+
 The eight harnesses of the 26.2 build run here too, against the Java 17 compile of the shared code:
 
 ```sh
