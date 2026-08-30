@@ -17,6 +17,7 @@ import java.util.UUID;
 import dev.virtualminecraft.bus.Sides;
 import dev.virtualminecraft.bus.ScreenComponent;
 import dev.virtualminecraft.bus.VmBus;
+import dev.virtualminecraft.util.Nums;
 import dev.virtualminecraft.vm.VmInstance;
 import dev.virtualminecraft.vm.Attachment;
 import dev.virtualminecraft.vm.Attachments;
@@ -270,7 +271,7 @@ public class ComputerBlockEntity extends BlockEntity implements ScreenSource, de
 	@Override
 	public void setWakeThreshold(final int threshold) {
 		final VmConfig cfg = config.copy();
-		cfg.wakeThreshold = Math.clamp(threshold, 0, 15);
+		cfg.wakeThreshold = Nums.clamp(threshold, 0, 15);
 		setConfig(cfg);
 	}
 
@@ -494,7 +495,7 @@ public class ComputerBlockEntity extends BlockEntity implements ScreenSource, de
 
 	/** Sets what {@code side} emits and notifies neighbours. Returns the previous level. */
 	public int setOutput(final Direction side, final int level) {
-		final int lvl = Math.clamp(level, 0, 15);
+		final int lvl = Nums.clamp(level, 0, 15);
 		final int prev = outputs[side.get3DDataValue()];
 		if (prev == lvl) {
 			return prev;
@@ -655,7 +656,7 @@ public class ComputerBlockEntity extends BlockEntity implements ScreenSource, de
 		Arrays.fill(outputs, 0);
 		input.getIntArray("outputs").ifPresent(a -> {
 			for (int i = 0; i < Math.min(6, a.length); i++) {
-				outputs[i] = Math.clamp(a[i], 0, 15);
+				outputs[i] = Nums.clamp(a[i], 0, 15);
 			}
 		});
 		java.util.Collections.fill(disks, ItemStack.EMPTY);

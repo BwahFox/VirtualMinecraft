@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import dev.virtualminecraft.block.MonitorBlockEntity;
+import dev.virtualminecraft.util.Nums;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -141,8 +142,8 @@ public final class ScreenComponent implements Component {
 			case "getCursorPos":
 				return pair(g.cursorX + 1, g.cursorY + 1);
 			case "setCursorPos": {
-				g.cursorX = Math.clamp(intArg(args, 0, "x") - 1, 0, g.cols - 1);
-				g.cursorY = Math.clamp(intArg(args, 1, "y") - 1, 0, g.rows - 1);
+				g.cursorX = Nums.clamp(intArg(args, 0, "x") - 1, 0, g.cols - 1);
+				g.cursorY = Nums.clamp(intArg(args, 1, "y") - 1, 0, g.rows - 1);
 				return pair(g.cursorX + 1, g.cursorY + 1);
 			}
 			case "getColors":

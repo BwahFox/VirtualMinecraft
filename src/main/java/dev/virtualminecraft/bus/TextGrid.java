@@ -1,5 +1,6 @@
 package dev.virtualminecraft.bus;
 
+import dev.virtualminecraft.util.Nums;
 import java.util.Arrays;
 import java.util.BitSet;
 import net.minecraft.network.FriendlyByteBuf;
@@ -41,8 +42,8 @@ public final class TextGrid {
 	}
 
 	public void resize(final int newCols, final int newRows) {
-		final int c = Math.clamp(newCols, 1, MAX_COLS);
-		final int r = Math.clamp(newRows, 1, MAX_ROWS);
+		final int c = Nums.clamp(newCols, 1, MAX_COLS);
+		final int r = Nums.clamp(newRows, 1, MAX_ROWS);
 		final int[] nc = new int[c * r];
 		final int[] nf = new int[c * r];
 		final int[] nb = new int[c * r];
@@ -228,8 +229,8 @@ public final class TextGrid {
 		in.getIntArray("chars").ifPresent(a -> System.arraycopy(a, 0, g.chars, 0, Math.min(n, a.length)));
 		in.getIntArray("fg").ifPresent(a -> System.arraycopy(a, 0, g.fg, 0, Math.min(n, a.length)));
 		in.getIntArray("bg").ifPresent(a -> System.arraycopy(a, 0, g.bg, 0, Math.min(n, a.length)));
-		g.cursorX = Math.clamp(in.getIntOr("cursorX", 0), 0, g.cols - 1);
-		g.cursorY = Math.clamp(in.getIntOr("cursorY", 0), 0, g.rows - 1);
+		g.cursorX = Nums.clamp(in.getIntOr("cursorX", 0), 0, g.cols - 1);
+		g.cursorY = Nums.clamp(in.getIntOr("cursorY", 0), 0, g.rows - 1);
 		g.curFg = in.getIntOr("curFg", DEFAULT_FG);
 		g.curBg = in.getIntOr("curBg", DEFAULT_BG);
 		return g;

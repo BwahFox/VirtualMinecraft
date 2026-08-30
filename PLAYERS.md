@@ -14,12 +14,14 @@ survival.
 
 You need, in a Fabric instance:
 
-- **Minecraft 26.2** with **Fabric Loader 0.19.3 or newer** and **Fabric API**
-- **Java 25**
-- the mod jar: `virtualminecraft-<version>.jar`
+- **Minecraft 26.2** with **Fabric Loader 0.19.3 or newer** and **Fabric API**, on **Java 25** —
+  the mod jar is `virtualminecraft-<version>.jar`
+- **or Minecraft 1.20.1** with **Fabric Loader 0.16 or newer** and **Fabric API 0.92.x**, on **Java 17 or
+  newer** — the jar is `virtualminecraft-<version>+mc1.20.1.jar`. Same mod, same everything; only pick the jar
+  that matches your Minecraft version.
 
 That's the whole mod. One optional extra: if you play VR with **Vivecraft**, also install
-`virtualminecraft-vr-<version>.jar` next to it (see "Playing in VR"). Without a headset, leave it out —
+`virtualminecraft-vr-<version>.jar` next to it (the `+mc1.20.1` one on 1.20.1 — see "Playing in VR"). Without a headset, leave it out —
 nothing changes.
 
 ---

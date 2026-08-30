@@ -3,6 +3,7 @@ package dev.virtualminecraft.vr;
 import dev.virtualminecraft.client.pointer.PointerRay;
 import dev.virtualminecraft.client.pointer.PointerSource;
 import dev.virtualminecraft.config.VmcConfig;
+import dev.virtualminecraft.util.Nums;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
@@ -62,7 +63,7 @@ public final class VrPointerSource implements PointerSource {
 			wheel = 0; // notches nobody will take must not burst out when a headset comes back
 			return null;
 		}
-		final double a = Math.clamp(VmcConfig.get().vrPointerSmoothing, 0.0, 0.95);
+		final double a = Nums.clamp(VmcConfig.get().vrPointerSmoothing, 0.0, 0.95);
 		if (smoothedOrigin == null || smoothedDirection == null || a <= 0.0) {
 			smoothedOrigin = raw.origin();
 			smoothedDirection = raw.direction();

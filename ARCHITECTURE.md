@@ -941,6 +941,36 @@ adjacent disk-drive blocks (floppy / CD) ┘        │
   serial|iso}`, `eject()` (pops the item on the ground); events `disk_inserted` / `disk_ejected`
   `{address, side, kind, description, serial?}` from the drive block entity.
 
+## The 1.20.1 backport (`mc1.20.1/`, session 28)
+
+One mod, two Minecraft versions, one copy of everything that is not Minecraft. `mc1.20.1/` is a standalone
+Gradle build (its own `settings.gradle`, wrapper and `gradle.properties`; the root build does not include it).
+Its `build.gradle` syncs `../src/<set>/<kind>` into `mc1.20.1/build/shared/` **minus every path that exists under
+`mc1.20.1/src/<set>/<kind>`**, and compiles both directories as one source set. So the invariant HANDOFF asked
+for in session 22 — *do not let Minecraft types leak further into the machine layer* — is now load-bearing:
+`computer/LuaMachine`, `ScreenDevice`'s core, `MachineFiles`, the whole ROM, `bus/`, `dbus/`, `rfb/`, `vm/Qemu*`
+and the harness tests compile unchanged on 1.20.1, and a file that gains a Minecraft import there has to be
+ported (shadowed) from then on. The forked shell is ~70 Java files: `ModContent`, the blocks and block
+entities (NBT via `CompoundTag` and a `util/Nbt` helper that mirrors `ValueInput`'s questions), the payloads
+(`net/Payload` — channel id + buffer, the 1.20.1 shape — with `ModNetworking.send` / `client/ClientNet` as the
+two places a payload becomes a packet and receivers hopping to the game thread themselves), the client
+rendering (`ScreenTexture` is a plain GL texture; `MonitorRenderer` is immediate-mode with the extract step
+inlined), input (`client/input/KeyEvent` / `CharacterEvent` records with 26.2's accessor names, so `KeyRelay`
+and `WorldKeyboard` are byte-identical), the screens, the puppet, the mixin (ints instead of event objects),
+`ClerkTrades` (the data-driven trades as code) and `item/StackData` (data components as NBT keys `disk`,
+`computer_id`, `bridge_pair`, `computer_label`, `computer_mem_mb`).
+
+Two things cut across the seam and are worth knowing. **FFM:** the 1.20.1 jar targets Java 17 but `dbus/Libc`
+needs `java.lang.foreign` (22+), so it is compiled in its own source set at 22, packed into the same jar, and
+the *shared* launcher asks `dbus/Ffm.available()` — a JVM-version check that short-circuits before the class
+is ever resolved — instead of `Libc.available()`. That one-line change, plus the Java 17 pass of 2026-08-30, is
+the whole of what the backport did to 26.2's code: the shared sources are compiled at `--release 17` by the
+1.20.1 build, so they use `util/Nums.clamp` in place of Java 21's `Math.clamp` (identical overloads and
+semantics) and `util/Threads` in place of `Thread.ofVirtual` (named daemon platform threads — every use was a
+one-off blocking QMP call or a process reap) and `threadId()`. The 1.20.1 build is what enforces this; the 26.2
+build, at 25, would happily accept a 21-only call, so a shared file that compiles only there has drifted. **`PipeBlock` units:** the cable passes pixels on 26.2 and a half-width fraction on 1.20.1
+(`BusCableBlock.APOTHEM`); `BlockShapeTest` has a 1.20.1 version that checks the 5..11 core either way.
+
 ## Dev-only
 
 `client/dev/Puppet` (`-Dvirtualminecraft.puppet=<port>`) and `-Dvirtualminecraft.debugOpenScreen=x,y,z` —

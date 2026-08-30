@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import dev.virtualminecraft.config.VmcConfig;
+import dev.virtualminecraft.util.Nums;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -86,7 +87,7 @@ public final class SpeakerComponent implements Component {
 			}
 			case "playNote": {
 				final NoteBlockInstrument instrument = instrument(arg(args, 0));
-				final int note = (int) Math.clamp(number(arg(args, 1), "note"), 0, 24);
+				final int note = (int) Nums.clamp(number(arg(args, 1), "note"), 0, 24);
 				final float volume = volume(arg(args, 2));
 				budget();
 				// Note-block pitch: two octaves centred on F#, 2^((note - 12) / 12).
@@ -98,7 +99,7 @@ public final class SpeakerComponent implements Component {
 			case "playSound": {
 				final Holder<SoundEvent> sound = sound(arg(args, 0));
 				final float volume = volume(arg(args, 1));
-				final float pitch = (float) Math.clamp(arg(args, 2) == null ? 1.0 : number(arg(args, 2), "pitch"), 0.5, 2.0);
+				final float pitch = (float) Nums.clamp(arg(args, 2) == null ? 1.0 : number(arg(args, 2), "pitch"), 0.5, 2.0);
 				budget();
 				level.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, sound, SoundSource.RECORDS, volume, pitch);
 				return new JsonPrimitive(true);
@@ -156,7 +157,7 @@ public final class SpeakerComponent implements Component {
 	}
 
 	private static float volume(final JsonElement e) throws BusException {
-		return (float) Math.clamp(e == null ? 1.0 : number(e, "volume"), 0.0, MAX_VOLUME);
+		return (float) Nums.clamp(e == null ? 1.0 : number(e, "volume"), 0.0, MAX_VOLUME);
 	}
 
 	private static JsonElement arg(final JsonArray args, final int i) {

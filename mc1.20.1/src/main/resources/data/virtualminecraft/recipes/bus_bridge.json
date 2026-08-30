@@ -1,0 +1,24 @@
+{
+  "type": "virtualminecraft:paired_bridge",
+  "category": "redstone",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "E": {
+      "item": "minecraft:ender_eye"
+    },
+    "C": {
+      "item": "virtualminecraft:bus_cable"
+    }
+  },
+  "pattern": [
+    "ICI",
+    "IEI",
+    "ICI"
+  ],
+  "result": {
+    "item": "virtualminecraft:bus_bridge",
+    "count": 2
+  }
+}

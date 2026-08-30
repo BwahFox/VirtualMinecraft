@@ -13,6 +13,8 @@ import dev.virtualminecraft.net.ViewerPayload;
 import dev.virtualminecraft.net.VmInputPayload;
 import dev.virtualminecraft.rfb.RfbClient;
 import dev.virtualminecraft.screen.ScreenViewers;
+import dev.virtualminecraft.util.Nums;
+import dev.virtualminecraft.util.Threads;
 import java.util.Collection;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -135,14 +137,14 @@ public final class VmInstance implements RfbClient.Listener {
 
 	/**
 	 * Swaps the medium of a removable device while the guest runs: {@code medium == null} ejects, otherwise the
-	 * file is (created if missing and) inserted. QMP on a virtual thread; failures are logged.
+	 * file is (created if missing and) inserted. QMP on a daemon thread; failures are logged.
 	 */
 	public void changeMedium(final String deviceId, final @Nullable Attachment medium) {
 		final QemuLauncher.Endpoints ep = endpoints;
 		if (ep == null || !isAlive()) {
 			return;
 		}
-		Thread.ofVirtual().start(() -> {
+		Threads.startDaemon("vmc-qmp-medium", () -> {
 			try {
 				final com.google.gson.JsonObject args = new com.google.gson.JsonObject();
 				args.addProperty("id", deviceId);
@@ -353,7 +355,7 @@ public final class VmInstance implements RfbClient.Listener {
 
 	/**
 	 * Saves RAM + disk state into the qcow2 (HMP {@code savevm}, VM paused meanwhile), writes the marker and quits
-	 * QEMU. Runs on a virtual thread; {@link #tick()} turns the resulting exit into {@link VmStatus#SUSPENDED}.
+	 * QEMU. Runs on a daemon thread; {@link #tick()} turns the resulting exit into {@link VmStatus#SUSPENDED}.
 	 * Returns the worker so a stopping server can wait for it, or null if there was nothing to suspend.
 	 */
 	public @Nullable Thread suspend() {
@@ -363,7 +365,7 @@ public final class VmInstance implements RfbClient.Listener {
 		}
 		suspending = true;
 		setStatus(VmStatus.RUNNING, "Suspending…");
-		final Thread t = Thread.ofVirtual().unstarted(() -> {
+		final Thread t = Threads.daemon("vmc-qmp-suspend", () -> {
 			try {
 				final long t0 = System.currentTimeMillis();
 				final String out = QmpClient.hmp(ep, "savevm " + SNAPSHOT_TAG);
@@ -463,7 +465,7 @@ public final class VmInstance implements RfbClient.Listener {
 		if (ep == null) {
 			return;
 		}
-		Thread.ofVirtual().start(() -> {
+		Threads.startDaemon("vmc-qmp-powerdown", () -> {
 			try {
 				QmpClient.execute(ep, "system_powerdown");
 			} catch (final IOException e) {
@@ -477,7 +479,7 @@ public final class VmInstance implements RfbClient.Listener {
 		if (ep == null) {
 			return;
 		}
-		Thread.ofVirtual().start(() -> {
+		Threads.startDaemon("vmc-qmp-reset", () -> {
 			try {
 				QmpClient.execute(ep, "system_reset");
 			} catch (final IOException e) {
@@ -503,7 +505,7 @@ public final class VmInstance implements RfbClient.Listener {
 		final Process p = process;
 		if (p != null && p.isAlive()) {
 			p.destroy();
-			Thread.ofVirtual().start(() -> {
+			Threads.startDaemon("vmc-qemu-reap", () -> {
 				try {
 					if (!p.waitFor(5, TimeUnit.SECONDS)) {
 						p.destroyForcibly();
@@ -666,7 +668,7 @@ public final class VmInstance implements RfbClient.Listener {
 		tickOwnerPresence();
 
 		flushAudio();
-		final int fps = Math.clamp(VmcConfig.get().streamFps, 1, 60);
+		final int fps = Nums.clamp(VmcConfig.get().streamFps, 1, 60);
 		final int interval = Math.max(1, Math.round(20f / fps));
 		if (tickCounter % interval == 0) {
 			flushFrames();
@@ -982,10 +984,10 @@ public final class VmInstance implements RfbClient.Listener {
 		}
 		if (rects.size() <= MAX_DIRTY_RECTS) {
 			for (final int[] rc : rects) {
-				final int x0 = Math.clamp(rc[0], 0, width);
-				final int y0 = Math.clamp(rc[1], 0, height);
-				final int x1 = Math.clamp(rc[0] + rc[2], 0, width);
-				final int y1 = Math.clamp(rc[1] + rc[3], 0, height);
+				final int x0 = Nums.clamp(rc[0], 0, width);
+				final int y0 = Nums.clamp(rc[1], 0, height);
+				final int x1 = Nums.clamp(rc[0] + rc[2], 0, width);
+				final int y1 = Nums.clamp(rc[1] + rc[3], 0, height);
 				if (x1 > x0 && y1 > y0) {
 					out.add(new int[] { x0, y0, x1 - x0, y1 - y0 });
 				}
@@ -1002,10 +1004,10 @@ public final class VmInstance implements RfbClient.Listener {
 			maxX = Math.max(maxX, rc[0] + rc[2]);
 			maxY = Math.max(maxY, rc[1] + rc[3]);
 		}
-		minX = Math.clamp(minX, 0, width);
-		minY = Math.clamp(minY, 0, height);
-		maxX = Math.clamp(maxX, 0, width);
-		maxY = Math.clamp(maxY, 0, height);
+		minX = Nums.clamp(minX, 0, width);
+		minY = Nums.clamp(minY, 0, height);
+		maxX = Nums.clamp(maxX, 0, width);
+		maxY = Nums.clamp(maxY, 0, height);
 		if (maxX > minX && maxY > minY) {
 			out.add(new int[] { minX, minY, maxX - minX, maxY - minY });
 		}

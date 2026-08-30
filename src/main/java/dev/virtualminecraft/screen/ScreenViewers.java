@@ -1,5 +1,6 @@
 package dev.virtualminecraft.screen;
 
+import dev.virtualminecraft.util.Nums;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -58,7 +59,7 @@ public final class ScreenViewers {
 		if (needFull) {
 			v.needFull = true;
 		}
-		v.lod = Math.clamp(lod, 0, dev.virtualminecraft.net.ViewerPayload.MAX_LOD);
+		v.lod = Nums.clamp(lod, 0, dev.virtualminecraft.net.ViewerPayload.MAX_LOD);
 	}
 
 	/** The live viewers of a screen (expired ones are pruned on the way out). Empty, never null. */

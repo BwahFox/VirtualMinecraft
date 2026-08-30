@@ -7,6 +7,7 @@ import dev.virtualminecraft.net.ScreenPalettePayload;
 import dev.virtualminecraft.net.ScreenRectPayload;
 import dev.virtualminecraft.net.ViewerPayload;
 import dev.virtualminecraft.screen.ScreenViewers;
+import dev.virtualminecraft.util.Nums;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -217,9 +218,9 @@ public final class ScreenDevice {
 
 	/** Cap the resolution and the settable palette (a Basic Computer: 256×256, 16 colours). A smaller cap shrinks a live picture. */
 	public synchronized void setLimits(final int w, final int h, final int settableColours) {
-		maxW = Math.clamp(w, 16, MAX_WIDTH);
-		maxH = Math.clamp(h, 16, MAX_HEIGHT);
-		colours = Math.clamp(settableColours, 2, 256);
+		maxW = Nums.clamp(w, 16, MAX_WIDTH);
+		maxH = Nums.clamp(h, 16, MAX_HEIGHT);
+		colours = Nums.clamp(settableColours, 2, 256);
 		if (width > maxW || height > maxH) {
 			resize(Math.min(width, maxW), Math.min(height, maxH));
 		}
@@ -239,8 +240,8 @@ public final class ScreenDevice {
 
 	/** Set (or drop, with 0×0) the resolution; the contents are cleared. Returns true if it changed. */
 	public synchronized boolean resize(final int w, final int h) {
-		final int nw = Math.clamp(w, 0, maxW);
-		final int nh = Math.clamp(h, 0, maxH);
+		final int nw = Nums.clamp(w, 0, maxW);
+		final int nh = Nums.clamp(h, 0, maxH);
 		if (nw == width && nh == height) {
 			return false;
 		}
@@ -305,10 +306,10 @@ public final class ScreenDevice {
 			clipH = height;
 			return;
 		}
-		clipX = Math.clamp(x, 0, width);
-		clipY = Math.clamp(y, 0, height);
-		clipW = Math.clamp(x + w, 0, width) - clipX;
-		clipH = Math.clamp(y + h, 0, height) - clipY;
+		clipX = Nums.clamp(x, 0, width);
+		clipY = Nums.clamp(y, 0, height);
+		clipW = Nums.clamp(x + w, 0, width) - clipX;
+		clipH = Nums.clamp(y + h, 0, height) - clipY;
 	}
 
 	public synchronized void clear(final int c) {
@@ -556,10 +557,10 @@ public final class ScreenDevice {
 
 	/** Reads {@code w × h} indexed pixels back (for sprites captured from the screen). */
 	public synchronized byte[] read(final int x, final int y, final int w, final int h) {
-		final int x0 = Math.clamp(x, 0, width);
-		final int y0 = Math.clamp(y, 0, height);
-		final int x1 = Math.clamp(x + w, 0, width);
-		final int y1 = Math.clamp(y + h, 0, height);
+		final int x0 = Nums.clamp(x, 0, width);
+		final int y0 = Nums.clamp(y, 0, height);
+		final int x1 = Nums.clamp(x + w, 0, width);
+		final int y1 = Nums.clamp(y + h, 0, height);
 		if (x1 <= x0 || y1 <= y0) {
 			return new byte[0];
 		}
@@ -577,7 +578,7 @@ public final class ScreenDevice {
 			return;
 		}
 		final byte[] tmp = read(sx, sy, w, h);
-		final int rw = Math.clamp(sx + w, 0, width) - Math.clamp(sx, 0, width);
+		final int rw = Nums.clamp(sx + w, 0, width) - Nums.clamp(sx, 0, width);
 		final int rh = tmp.length / Math.max(1, rw);
 		if (rw <= 0 || rh <= 0) {
 			return;
@@ -772,10 +773,10 @@ public final class ScreenDevice {
 		}
 		if (rects.size() <= MAX_DIRTY_RECTS) {
 			for (final int[] rc : rects) {
-				final int x0 = Math.clamp(rc[0], 0, width);
-				final int y0 = Math.clamp(rc[1], 0, height);
-				final int x1 = Math.clamp(rc[0] + rc[2], 0, width);
-				final int y1 = Math.clamp(rc[1] + rc[3], 0, height);
+				final int x0 = Nums.clamp(rc[0], 0, width);
+				final int y0 = Nums.clamp(rc[1], 0, height);
+				final int x1 = Nums.clamp(rc[0] + rc[2], 0, width);
+				final int y1 = Nums.clamp(rc[1] + rc[3], 0, height);
 				if (x1 > x0 && y1 > y0) {
 					out.add(new int[] { x0, y0, x1 - x0, y1 - y0 });
 				}
@@ -792,10 +793,10 @@ public final class ScreenDevice {
 			maxX = Math.max(maxX, rc[0] + rc[2]);
 			maxY = Math.max(maxY, rc[1] + rc[3]);
 		}
-		minX = Math.clamp(minX, 0, width);
-		minY = Math.clamp(minY, 0, height);
-		maxX = Math.clamp(maxX, 0, width);
-		maxY = Math.clamp(maxY, 0, height);
+		minX = Nums.clamp(minX, 0, width);
+		minY = Nums.clamp(minY, 0, height);
+		maxX = Nums.clamp(maxX, 0, width);
+		maxY = Nums.clamp(maxY, 0, height);
 		if (maxX > minX && maxY > minY) {
 			out.add(new int[] { minX, minY, maxX - minX, maxY - minY });
 		}

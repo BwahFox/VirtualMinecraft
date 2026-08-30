@@ -1,5 +1,6 @@
 package dev.virtualminecraft.computer;
 
+import dev.virtualminecraft.util.Nums;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -124,16 +125,16 @@ public final class SoundChip {
 		if (!ch.enabled) {
 			return;
 		}
-		ch.wave = Math.clamp(wave, WAVE_SQUARE, WAVE_NOISE);
-		ch.freq = Math.clamp(freq, 0, RATE / 2.0);
+		ch.wave = Nums.clamp(wave, WAVE_SQUARE, WAVE_NOISE);
+		ch.freq = Nums.clamp(freq, 0, RATE / 2.0);
 		ch.slideTarget = ch.freq;
 		ch.slidePerSample = 0;
-		ch.vol = Math.clamp(vol, 0, 1);
+		ch.vol = Nums.clamp(vol, 0, 1);
 		ch.attack = Math.max(0, attack);
 		ch.decay = Math.max(0, decay);
-		ch.sustain = Math.clamp(sustain, 0, 1);
+		ch.sustain = Nums.clamp(sustain, 0, 1);
 		ch.release = Math.max(0, release);
-		ch.duty = Math.clamp(duty, 0.01, 0.99);
+		ch.duty = Nums.clamp(duty, 0.01, 0.99);
 		if (ch.stage == 0) {
 			ch.env = 0;
 			ch.phase = 0;
@@ -152,7 +153,7 @@ public final class SoundChip {
 	/** Slides the pitch to {@code freq} over {@code seconds}. */
 	public synchronized void slide(final int c, final double freq, final double seconds) {
 		final Channel ch = synth(c);
-		ch.slideTarget = Math.clamp(freq, 0, RATE / 2.0);
+		ch.slideTarget = Nums.clamp(freq, 0, RATE / 2.0);
 		final double n = Math.max(1, seconds * RATE);
 		ch.slidePerSample = (ch.slideTarget - ch.freq) / n;
 	}
@@ -164,7 +165,7 @@ public final class SoundChip {
 		if (!samples.containsKey(id) && samples.size() >= MAX_SAMPLES) {
 			throw new IllegalArgumentException("no more than " + MAX_SAMPLES + " samples loaded");
 		}
-		samples.put(id, new Sample(data, Math.clamp(rate, 1000, 48000)));
+		samples.put(id, new Sample(data, Nums.clamp(rate, 1000, 48000)));
 	}
 
 	public synchronized void playSample(final int c, final int id, final double vol, final boolean loop) {
@@ -179,7 +180,7 @@ public final class SoundChip {
 		ch.sample = s;
 		ch.pos = 0;
 		ch.step = s.rate / (double) RATE;
-		ch.vol = Math.clamp(vol, 0, 1);
+		ch.vol = Nums.clamp(vol, 0, 1);
 		ch.loop = loop;
 	}
 
@@ -202,7 +203,7 @@ public final class SoundChip {
 	}
 
 	public synchronized void master(final double v) {
-		master = Math.clamp(v, 0, 1);
+		master = Nums.clamp(v, 0, 1);
 	}
 
 	public synchronized double master() {
@@ -255,7 +256,7 @@ public final class SoundChip {
 			}
 		}
 		for (int i = 0; i < n; i++) {
-			final int v = (int) Math.clamp(Math.round(mix[i] * master), -32768, 32767);
+			final int v = (int) Nums.clamp(Math.round(mix[i] * master), -32768, 32767);
 			out[2 * i] = (byte) v;
 			out[2 * i + 1] = (byte) (v >> 8);
 		}

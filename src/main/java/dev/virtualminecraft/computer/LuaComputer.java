@@ -11,6 +11,7 @@ import dev.virtualminecraft.bus.Components;
 import dev.virtualminecraft.bus.RateLimiter;
 import dev.virtualminecraft.config.VmcConfig;
 import dev.virtualminecraft.screen.ScreenViewers;
+import dev.virtualminecraft.util.Nums;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -495,7 +496,7 @@ public final class LuaComputer implements LuaMachine.Host, MachineScheduler.List
 			event("screen", p);
 		}
 		boolean busy = false;
-		final int fpsDivisor = Math.max(1, 20 / Math.clamp(VmcConfig.get().streamFps, 1, 20));
+		final int fpsDivisor = Math.max(1, 20 / Nums.clamp(VmcConfig.get().streamFps, 1, 20));
 		if (++flushTick % fpsDivisor == 0) {
 			final boolean sent = screen.flush(ScreenViewers.get(manager.server()).of(id), VirtualMinecraft.localBridge);
 			if (awaitingFlip) {
@@ -625,7 +626,7 @@ public final class LuaComputer implements LuaMachine.Host, MachineScheduler.List
 		if (!cfg.computerWorkerFlush || !ScreenViewers.get(manager.server()).anyone(id)) {
 			return 50; // nobody watching (or the old path): the server-tick rate, so an unwatched game costs what it did
 		}
-		return Math.max(1, 1000 / Math.clamp(cfg.computerMaxFps, 1, 240));
+		return Math.max(1, 1000 / Nums.clamp(cfg.computerMaxFps, 1, 240));
 	}
 
 	@Override

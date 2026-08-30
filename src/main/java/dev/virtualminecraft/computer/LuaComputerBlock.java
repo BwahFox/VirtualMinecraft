@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.mojang.serialization.MapCodec;
 import dev.virtualminecraft.ModContent;
 import dev.virtualminecraft.VirtualMinecraft;
+import dev.virtualminecraft.util.Nums;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -45,13 +46,13 @@ public class LuaComputerBlock extends BaseEntityBlock {
 
 	public LuaComputerBlock(final Properties properties, final int tier) {
 		super(properties);
-		this.tier = Math.clamp(tier, 1, MachineSpec.TIERS);
+		this.tier = Nums.clamp(tier, 1, MachineSpec.TIERS);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
 	}
 
 	/** The case block of a tier, for drops and migrations. */
 	public static Block forTier(final int tier) {
-		return switch (Math.clamp(tier, 1, MachineSpec.TIERS)) {
+		return switch (Nums.clamp(tier, 1, MachineSpec.TIERS)) {
 			case 1 -> ModContent.BASIC_COMPUTER;
 			case 3 -> ModContent.ADVANCED_COMPUTER;
 			default -> ModContent.LUA_COMPUTER;

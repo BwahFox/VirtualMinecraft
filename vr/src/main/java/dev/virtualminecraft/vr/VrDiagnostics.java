@@ -3,6 +3,7 @@ package dev.virtualminecraft.vr;
 import dev.virtualminecraft.client.pointer.PointerRay;
 import dev.virtualminecraft.client.pointer.WorldPointer;
 import dev.virtualminecraft.config.VmcConfig;
+import dev.virtualminecraft.util.Nums;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
@@ -84,8 +85,8 @@ final class VrDiagnostics {
 
 		final Vec3 dir = raw.direction().normalize();
 		if (lastRawDir != null) {
-			angleSum += Math.toDegrees(Math.acos(Math.clamp(lastRawDir.dot(dir), -1.0, 1.0)));
-			angleMax = Math.max(angleMax, Math.toDegrees(Math.acos(Math.clamp(lastRawDir.dot(dir), -1.0, 1.0))));
+			angleSum += Math.toDegrees(Math.acos(Nums.clamp(lastRawDir.dot(dir), -1.0, 1.0)));
+			angleMax = Math.max(angleMax, Math.toDegrees(Math.acos(Nums.clamp(lastRawDir.dot(dir), -1.0, 1.0))));
 		}
 		lastRawDir = dir;
 		samples++;

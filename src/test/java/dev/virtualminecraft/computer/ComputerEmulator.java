@@ -1,5 +1,7 @@
 package dev.virtualminecraft.computer;
 
+import dev.virtualminecraft.util.Nums;
+import dev.virtualminecraft.util.Threads;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -146,7 +148,7 @@ public final class ComputerEmulator {
 	 * game that hoards could pass here and die on a real Computer.
 	 */
 	private void meter() {
-		final long tid = Thread.currentThread().threadId();
+		final long tid = Threads.id(Thread.currentThread());
 		final long alloc = THREADS.getThreadAllocatedBytes(tid) - sliceStartAlloc;
 		sliceStartAlloc = THREADS.getThreadAllocatedBytes(tid);
 		machine.memory().addAllocated(alloc);
@@ -163,7 +165,7 @@ public final class ComputerEmulator {
 	private long sliceStartAlloc;
 
 	private void runLoop() {
-		sliceStartAlloc = THREADS.getThreadAllocatedBytes(Thread.currentThread().threadId());
+		sliceStartAlloc = THREADS.getThreadAllocatedBytes(Threads.id(Thread.currentThread()));
 		while (!stop) {
 			final LuaMachine.Result r = machine.run();
 			meter();
@@ -293,11 +295,11 @@ public final class ComputerEmulator {
 	private volatile int fitY;
 
 	private int fbX(final int x) {
-		return Math.clamp((int) Math.floor((x - fitX) / fitScale), 0, Math.max(0, host.screen.width() - 1));
+		return Nums.clamp((int) Math.floor((x - fitX) / fitScale), 0, Math.max(0, host.screen.width() - 1));
 	}
 
 	private int fbY(final int y) {
-		return Math.clamp((int) Math.floor((y - fitY) / fitScale), 0, Math.max(0, host.screen.height() - 1));
+		return Nums.clamp((int) Math.floor((y - fitY) / fitScale), 0, Math.max(0, host.screen.height() - 1));
 	}
 
 	private void pointer(final MouseEvent e) {
@@ -655,7 +657,7 @@ public final class ComputerEmulator {
 			java.util.Arrays.fill(lv, 0);
 			final String[] f = parts.split(",");
 			for (int k = 0; k < Math.min(4, f.length); k++) {
-				lv[k] = Math.clamp(Integer.parseInt(f[k].strip()), 0, MachineSpec.LEVELS);
+				lv[k] = Nums.clamp(Integer.parseInt(f[k].strip()), 0, MachineSpec.LEVELS);
 			}
 		}
 		final MachineSpec spec = MachineSpec.of(tier, lv[0], lv[1], lv[2], lv[3], 64);

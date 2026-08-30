@@ -1,5 +1,6 @@
 package dev.virtualminecraft.bus;
 
+import dev.virtualminecraft.util.Nums;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -139,7 +140,7 @@ public final class RedstoneComponent implements Component {
 			return p.getAsBoolean() ? 15 : 0;
 		}
 		try {
-			return Math.clamp(p.getAsInt(), 0, 15);
+			return Nums.clamp(p.getAsInt(), 0, 15);
 		} catch (final NumberFormatException ex) {
 			throw BusException.invalidParams("level must be a number 0-15");
 		}

@@ -1,0 +1,111 @@
+plugins {
+	id 'net.fabricmc.fabric-loom-remap'
+}
+
+// The VR module for 1.20.1: the same seam as ../../vr (read that file's comments), against Vivecraft's 1.20.1 build.
+// Java sources: the 1.20.1 versions under src/ here shadow ../../vr/src, same mechanism as the root build.
+version = rootProject.version
+group = rootProject.group
+base {
+	archivesName = "virtualminecraft-vr"
+}
+
+def shared = rootProject.rootDir.parentFile
+
+repositories {
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "SquidDev"
+				url = "https://maven.squiddev.cc"
+			}
+		}
+		filter {
+			includeGroup "cc.tweaked"
+		}
+	}
+}
+
+// Vivecraft for 1.20.1, compile-time only, never redistributed: drop the jar in mc1.20.1/vivecraft/ (gitignored --
+// the repo root's `vivecraft/` pattern matches any directory of that name). Kept apart from the root `vivecraft/`
+// so the 26.2 build, which takes the first vivecraft-*.jar it sees there, never picks up the 1.20.1 one.
+def vivecraftDir = rootProject.file("vivecraft")
+def vivecraftJar = vivecraftDir.isDirectory() ? vivecraftDir.listFiles().find { it.name.startsWith("vivecraft-1.20.1") && it.name.endsWith(".jar") } : null
+
+def vrShared = tasks.register("syncSharedVrJava", Sync) {
+	from("${shared}/vr/src/main/java")
+	into(layout.buildDirectory.dir("shared/main/java"))
+	exclude { FileTreeElement e -> !e.directory && new File(file("src/main/java"), e.relativePath.pathString).exists() }
+}
+sourceSets {
+	main {
+		java.srcDirs = ['src/main/java', layout.buildDirectory.dir("shared/main/java")]
+	}
+}
+tasks.named("compileJava") { dependsOn vrShared }
+tasks.matching { it.name == "sourcesJar" }.configureEach { dependsOn vrShared }
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings loom.officialMojangMappings()
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+	implementation rootProject.sourceSets.main.output
+	implementation rootProject.sourceSets.client.output
+	implementation rootProject.sourceSets.ffm.output
+	implementation "cc.tweaked:cobalt:${project.cobalt_version}"
+	compileOnly "org.jspecify:jspecify:1.0.0"
+
+	// modCompileOnly, unlike the 26.2 build's plain compileOnly: the 1.20.1 Vivecraft jar is intermediary-mapped
+	// (javap prints net.minecraft.class_243, not Vec3), so Loom has to remap it into the dev names first.
+	if (vivecraftJar != null) {
+		modCompileOnly files(vivecraftJar)
+		logger.lifecycle("vr: compiling against ${vivecraftJar.name}")
+	}
+}
+
+processResources {
+	inputs.property "version", project.version
+	filesMatching("fabric.mod.json") {
+		expand "version": project.version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 17
+}
+java {
+	withSourcesJar()
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
+}
+
+def vivecraftRunJar = vivecraftJar
+tasks.register("copyVivecraftToRun", Copy) {
+	description = "Puts the Vivecraft jar where the dev client can load it (vr/run/mods/)."
+	onlyIf { vivecraftRunJar != null }
+	if (vivecraftRunJar != null) {
+		from vivecraftRunJar
+	}
+	into file("run/mods")
+}
+def wivrnManifest = file("/var/lib/flatpak/app/io.github.wivrn.wivrn/current/active/files/share/openxr/1/openxr_wivrn.json")
+loom {
+	runs {
+		client {
+			environmentVariable("__GL_THREADED_OPTIMIZATIONS", "0")
+			vmArg("--enable-native-access=ALL-UNNAMED")
+			vmArg("-XX:+UseZGC")
+			if (System.getenv("XR_RUNTIME_JSON") == null && wivrnManifest.isFile()) {
+				environmentVariable("XR_RUNTIME_JSON", wivrnManifest.absolutePath)
+			}
+			if (System.getProperty("virtualminecraft.puppet") != null) {
+				vmArg("-Dvirtualminecraft.puppet=" + System.getProperty("virtualminecraft.puppet"))
+			}
+		}
+	}
+}
+tasks.named("runClient") {
+	dependsOn "copyVivecraftToRun"
+}

@@ -2,6 +2,7 @@ package dev.virtualminecraft.computer;
 
 import dev.virtualminecraft.VirtualMinecraft;
 import dev.virtualminecraft.config.VmcConfig;
+import dev.virtualminecraft.util.Nums;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -65,7 +66,7 @@ public final class ComputerManager {
 		if (s == null) {
 			final VmcConfig cfg = VmcConfig.get();
 			final int threads = cfg.computerThreads > 0 ? cfg.computerThreads : Math.max(2, Runtime.getRuntime().availableProcessors() / 4);
-			s = new MachineScheduler(threads, Math.max(1, cfg.computerSliceMs) * 1_000_000L, Math.clamp(cfg.computerCpuPercent, 1, 400) / 100.0);
+			s = new MachineScheduler(threads, Math.max(1, cfg.computerSliceMs) * 1_000_000L, Nums.clamp(cfg.computerCpuPercent, 1, 400) / 100.0);
 			scheduler = s;
 			VirtualMinecraft.LOGGER.info("Computer scheduler: {} workers, {} ms slices, {} % share", threads, cfg.computerSliceMs, cfg.computerCpuPercent);
 		}

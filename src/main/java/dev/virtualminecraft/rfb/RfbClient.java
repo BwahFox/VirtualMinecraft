@@ -1,5 +1,6 @@
 package dev.virtualminecraft.rfb;
 
+import dev.virtualminecraft.util.Nums;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.Closeable;
@@ -266,8 +267,8 @@ public final class RfbClient implements Closeable {
 	}
 
 	public void sendPointer(final int buttonMask, final int x, final int y) throws IOException {
-		final int cx = Math.clamp(x, 0, Math.max(0, width - 1));
-		final int cy = Math.clamp(y, 0, Math.max(0, height - 1));
+		final int cx = Nums.clamp(x, 0, Math.max(0, width - 1));
+		final int cy = Nums.clamp(y, 0, Math.max(0, height - 1));
 		writeRaw(new byte[] {
 			5, (byte) buttonMask,
 			(byte) (cx >> 8), (byte) cx, (byte) (cy >> 8), (byte) cy

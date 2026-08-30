@@ -1,5 +1,6 @@
 package dev.virtualminecraft.computer;
 
+import dev.virtualminecraft.util.Nums;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -50,7 +51,7 @@ public final class RomBootTest {
 		Boolean desktop;
 
 		void setTier(final int t) {
-			setSpec(MachineSpec.fitted(Math.clamp(t, 1, MachineSpec.TIERS)));
+			setSpec(MachineSpec.fitted(Nums.clamp(t, 1, MachineSpec.TIERS)));
 		}
 
 		/** §9 U10(a): no drive part, no {@code /disk} — the mount is simply not there, as in the world. */

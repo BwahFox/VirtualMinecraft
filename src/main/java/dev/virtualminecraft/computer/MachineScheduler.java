@@ -2,6 +2,8 @@ package dev.virtualminecraft.computer;
 
 import com.sun.management.ThreadMXBean;
 import dev.virtualminecraft.VirtualMinecraft;
+import dev.virtualminecraft.util.Nums;
+import dev.virtualminecraft.util.Threads;
 import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
@@ -119,7 +121,7 @@ public final class MachineScheduler {
 
 	/** The same with the machine's own share of a core (a part in its case decides it). */
 	public void submit(final LuaMachine machine, final Listener listener, final double share) {
-		final Entry e = new Entry(machine, listener, Math.clamp(share, 0.01, 4.0));
+		final Entry e = new Entry(machine, listener, Nums.clamp(share, 0.01, 4.0));
 		entries.put(machine, e);
 		makeRunnable(e, System.nanoTime());
 	}
@@ -221,7 +223,7 @@ public final class MachineScheduler {
 	}
 
 	private void workerLoop() {
-		final long tid = Thread.currentThread().threadId();
+		final long tid = Threads.id(Thread.currentThread());
 		while (!stopped) {
 			final Entry e;
 			try {

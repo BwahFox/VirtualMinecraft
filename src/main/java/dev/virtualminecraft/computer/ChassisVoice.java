@@ -1,5 +1,7 @@
 package dev.virtualminecraft.computer;
 
+import dev.virtualminecraft.util.Nums;
+
 /**
  * The machine's <em>hardware</em> voice (ROADMAP §9 U5): the case, the fan and the drives, as opposed to the
  * {@link SoundChip} Lua drives through {@code snd.*}. Until this existed a running Computer was indistinguishable
@@ -50,7 +52,7 @@ public final class ChassisVoice {
 
 	/** {@code computerChassisVolume}: 0 turns the hardware voice off entirely, which is a thing some players will want. */
 	public void setVolume(final double v) {
-		volume = Math.clamp(v, 0, 1);
+		volume = Nums.clamp(v, 0, 1);
 		chip.master(volume);
 	}
 
@@ -114,7 +116,7 @@ public final class ChassisVoice {
 			}
 			return;
 		}
-		final int bucket = (int) Math.clamp(Math.floor(Math.clamp(load, 0, 1) * 4), 0, 3);
+		final int bucket = (int) Nums.clamp(Math.floor(Nums.clamp(load, 0, 1) * 4), 0, 3);
 		if (!humming) {
 			// a long attack is the fan spinning up, and the long release below is it spinning down
 			chip.channel(CH_HUM, SoundChip.WAVE_NOISE, humFreq(bucket), humVol(bucket), 0.8, 0, 1, 1.0, 0.5);
@@ -179,7 +181,7 @@ public final class ChassisVoice {
 		for (int i = 0; i < n; i++) {
 			final int x = (short) ((out[2 * i] & 0xFF) | (out[2 * i + 1] << 8));
 			final int y = (short) ((shorter[2 * i] & 0xFF) | (shorter[2 * i + 1] << 8));
-			final int v = Math.clamp(x + y, -32768, 32767);
+			final int v = Nums.clamp(x + y, -32768, 32767);
 			out[2 * i] = (byte) v;
 			out[2 * i + 1] = (byte) (v >> 8);
 		}

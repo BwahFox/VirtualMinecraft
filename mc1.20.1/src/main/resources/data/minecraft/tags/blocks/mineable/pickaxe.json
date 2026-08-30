@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "virtualminecraft:command_computer",
+    "virtualminecraft:computer",
+    "virtualminecraft:monitor",
+    "virtualminecraft:disk_drive",
+    "virtualminecraft:bus_cable",
+    "virtualminecraft:modem",
+    "virtualminecraft:basic_computer",
+    "virtualminecraft:advanced_computer",
+    "virtualminecraft:cash_register",
+    "virtualminecraft:keyboard"
+  ]
+}

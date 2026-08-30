@@ -15,6 +15,7 @@ import dev.virtualminecraft.config.VmcConfig;
 import dev.virtualminecraft.net.VmInputPayload;
 import dev.virtualminecraft.screen.ScreenSource;
 import dev.virtualminecraft.screen.ScreenSources;
+import dev.virtualminecraft.util.Nums;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -171,7 +172,7 @@ public class LuaComputerBlockEntity extends BlockEntity implements ScreenSource,
 	}
 
 	public void setDesktopMode(final int mode) {
-		desktopMode = Math.clamp(mode, 0, 2);
+		desktopMode = Nums.clamp(mode, 0, 2);
 		sync();
 	}
 
@@ -464,7 +465,7 @@ public class LuaComputerBlockEntity extends BlockEntity implements ScreenSource,
 				if (!parts.getItem(slot).isEmpty()) {
 					continue;
 				}
-				final int level = Math.clamp(levels[slot], 1, MachineSpec.LEVELS);
+				final int level = Nums.clamp(levels[slot], 1, MachineSpec.LEVELS);
 				parts.setItem(slot, new net.minecraft.world.item.ItemStack(ModContent.PARTS[slot][level - 1]));
 				fitted.append(fitted.isEmpty() ? "" : ", ").append(kind).append(' ').append(level);
 			}
@@ -660,7 +661,7 @@ public class LuaComputerBlockEntity extends BlockEntity implements ScreenSource,
 
 	@Override
 	public int setOutput(final Direction side, final int level) {
-		final int lvl = Math.clamp(level, 0, 15);
+		final int lvl = Nums.clamp(level, 0, 15);
 		final int prev = outputs[side.get3DDataValue()];
 		if (prev == lvl) {
 			return prev;
@@ -704,7 +705,7 @@ public class LuaComputerBlockEntity extends BlockEntity implements ScreenSource,
 
 	@Override
 	public void setWakeThreshold(final int threshold) {
-		wakeThreshold = Math.clamp(threshold, 0, 15);
+		wakeThreshold = Nums.clamp(threshold, 0, 15);
 		if (wakeThreshold == 0) {
 			sleepGrace = -1;
 		}
@@ -1028,9 +1029,9 @@ public class LuaComputerBlockEntity extends BlockEntity implements ScreenSource,
 			}
 		});
 		name = input.getStringOr("name", "computer");
-		syncedMemMb = Math.clamp(input.getIntOr("memMb", VmcConfig.get().computerMemMb), 1, 64);
-		desktopMode = Math.clamp(input.getIntOr("desktop", 0), 0, 2);
-		wakeThreshold = Math.clamp(input.getIntOr("wakeThreshold", 0), 0, 15);
+		syncedMemMb = Nums.clamp(input.getIntOr("memMb", VmcConfig.get().computerMemMb), 1, 64);
+		desktopMode = Nums.clamp(input.getIntOr("desktop", 0), 0, 2);
+		wakeThreshold = Nums.clamp(input.getIntOr("wakeThreshold", 0), 0, 15);
 		redstoneSleep = input.getBooleanOr("redstoneSleep", false);
 		final java.util.Optional<net.minecraft.world.level.storage.ValueInput.TypedInputList<net.minecraft.world.item.ItemStack>> saved = input.list("parts", net.minecraft.world.item.ItemStack.OPTIONAL_CODEC);
 		if (saved.isPresent()) {
@@ -1056,7 +1057,7 @@ public class LuaComputerBlockEntity extends BlockEntity implements ScreenSource,
 		Arrays.fill(outputs, 0);
 		input.getIntArray("outputs").ifPresent(a -> {
 			for (int i = 0; i < Math.min(6, a.length); i++) {
-				outputs[i] = Math.clamp(a[i], 0, 15);
+				outputs[i] = Nums.clamp(a[i], 0, 15);
 			}
 		});
 	}

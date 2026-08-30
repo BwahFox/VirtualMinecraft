@@ -1,6 +1,7 @@
 package dev.virtualminecraft.item;
 
 import dev.virtualminecraft.ModContent;
+import dev.virtualminecraft.util.Nums;
 import java.util.UUID;
 import java.util.function.Consumer;
 import net.minecraft.network.chat.Component;
@@ -86,7 +87,7 @@ public class DiskItem extends Item {
 			case HARD_DRIVE -> ModContent.HARD_DRIVE;
 		};
 		final ItemStack stack = new ItemStack(item);
-		final int sizeMb = kind == Kind.HARD_DRIVE ? Math.clamp(sizeGb, 1, MAX_HDD_GB) * 1024 : kind.defaultSizeMb;
+		final int sizeMb = kind == Kind.HARD_DRIVE ? Nums.clamp(sizeGb, 1, MAX_HDD_GB) * 1024 : kind.defaultSizeMb;
 		stack.set(ModContent.DISK_DATA, new DiskData(UUID.randomUUID(), sizeMb, kind == Kind.HARD_DRIVE ? "" : iso.strip()));
 		return stack;
 	}

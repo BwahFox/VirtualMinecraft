@@ -1,0 +1,23 @@
+{
+	"schemaVersion": 1,
+	"id": "virtualminecraft-vr",
+	"version": "${version}",
+	"name": "VirtualMinecraft VR",
+	"description": "The Vivecraft-facing half of VirtualMinecraft: controller pointing, the floating keyboard and the keyboard block. Without this jar the mod behaves exactly as it does without VR.",
+	"authors": [
+		"BwahFox"
+	],
+	"license": "MIT",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"dev.virtualminecraft.vr.VrModule"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.16.0",
+		"minecraft": "~1.20.1",
+		"virtualminecraft": "*",
+		"vivecraft": "*"
+	}
+}

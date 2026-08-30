@@ -1,0 +1,35 @@
+{
+	"schemaVersion": 1,
+	"id": "virtualminecraft",
+	"version": "${version}",
+	"name": "VirtualMinecraft",
+	"description": "Real computers in Minecraft: QEMU/KVM virtual machines rendered on in-game monitors, multiplayer-aware.",
+	"authors": [
+		"BwahFox"
+	],
+	"contact": {},
+	"license": "LGPL-3.0-only",
+	"icon": "assets/virtualminecraft/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"dev.virtualminecraft.VirtualMinecraft"
+		],
+		"client": [
+			"dev.virtualminecraft.client.VirtualMinecraftClient"
+		]
+	},
+	"mixins": [
+		"virtualminecraft.mixins.json",
+		{
+			"config": "virtualminecraft.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.16.0",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	}
+}

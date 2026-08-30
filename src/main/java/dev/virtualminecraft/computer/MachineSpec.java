@@ -1,5 +1,6 @@
 package dev.virtualminecraft.computer;
 
+import dev.virtualminecraft.util.Nums;
 import com.google.gson.JsonObject;
 
 /**
@@ -53,7 +54,7 @@ public record MachineSpec(int tier, int memMb, int cpuPercent, int maxW, int max
 
 	/** Value of one part of a kind at a level (1..3), in the axis's unit; the GUI and tooltips use it. */
 	public static int partValue(final Part part, final int level) {
-		final int i = Math.clamp(level, 1, LEVELS) - 1;
+		final int i = Nums.clamp(level, 1, LEVELS) - 1;
 		return switch (part) {
 			case RAM -> RAM_MB[i];
 			case CPU -> CPU_LEVEL_PCT[i];
@@ -64,7 +65,7 @@ public record MachineSpec(int tier, int memMb, int cpuPercent, int maxW, int max
 
 	/** The human line for a part: "8 MB", "35 % CPU", "512×512, 256 colours", "8 MB disk". */
 	public static String partLabel(final Part part, final int level) {
-		final int i = Math.clamp(level, 1, LEVELS) - 1;
+		final int i = Nums.clamp(level, 1, LEVELS) - 1;
 		return switch (part) {
 			case RAM -> RAM_MB[i] + " MB";
 			case CPU -> CPU_LEVEL_PCT[i] + " % of a core";
@@ -84,14 +85,14 @@ public record MachineSpec(int tier, int memMb, int cpuPercent, int maxW, int max
 	 * @param memCeilingMb the config's {@code maxComputerMemMb}: a server may cap memory under the case's ceiling
 	 */
 	public static MachineSpec of(final int tier, final int ram, final int cpu, final int graphics, final int drive, final int memCeilingMb) {
-		final int t = Math.clamp(tier, 1, TIERS);
-		final int mem = ram > 0 ? Math.min(Math.max(1, memCeilingMb), cap(MEM_MB, t, RAM_MB[Math.clamp(ram, 1, LEVELS) - 1])) : 0;
-		final int cpuPct = cpu > 0 ? cap(CPU_PCT, t, CPU_LEVEL_PCT[Math.clamp(cpu, 1, LEVELS) - 1]) : 0;
-		final int gi = Math.clamp(graphics, 1, LEVELS) - 1;
+		final int t = Nums.clamp(tier, 1, TIERS);
+		final int mem = ram > 0 ? Math.min(Math.max(1, memCeilingMb), cap(MEM_MB, t, RAM_MB[Nums.clamp(ram, 1, LEVELS) - 1])) : 0;
+		final int cpuPct = cpu > 0 ? cap(CPU_PCT, t, CPU_LEVEL_PCT[Nums.clamp(cpu, 1, LEVELS) - 1]) : 0;
+		final int gi = Nums.clamp(graphics, 1, LEVELS) - 1;
 		final int w = graphics > 0 ? cap(SCREEN_W, t, GFX_W[gi]) : 0;
 		final int h = graphics > 0 ? cap(SCREEN_H, t, GFX_H[gi]) : 0;
 		final int colours = graphics > 0 ? cap(COLOURS, t, GFX_COLOURS[gi]) : 0;
-		final int disk = drive > 0 ? cap(DISK_KB, t, DRIVE_KB[Math.clamp(drive, 1, LEVELS) - 1]) : 0;
+		final int disk = drive > 0 ? cap(DISK_KB, t, DRIVE_KB[Nums.clamp(drive, 1, LEVELS) - 1]) : 0;
 		return new MachineSpec(t, mem, cpuPct, w, h, colours, disk, SYNTH[t - 1], SAMPLES[t - 1]);
 	}
 
@@ -164,7 +165,7 @@ public record MachineSpec(int tier, int memMb, int cpuPercent, int maxW, int max
 	 * used to hand out for free. In {@link Part#ALL} order.
 	 */
 	public static int[] migrationLevels(final int tier) {
-		final int t = Math.clamp(tier, 1, TIERS) - 1;
+		final int t = Nums.clamp(tier, 1, TIERS) - 1;
 		// The graphics card has to satisfy three numbers at once, and the widest is not always the deepest: a bare
 		// Computer used to draw 256x256 in 256 colours, which is a Graphics Card I by width and a II by palette.
 		int gfx = 1;
@@ -190,16 +191,16 @@ public record MachineSpec(int tier, int memMb, int cpuPercent, int maxW, int max
 	}
 
 	public static int baseMemMb(final int tier) {
-		return MEM_MB[Math.clamp(tier, 1, TIERS) - 1][0];
+		return MEM_MB[Nums.clamp(tier, 1, TIERS) - 1][0];
 	}
 
 	public static int ceilingMemMb(final int tier) {
-		return MEM_MB[Math.clamp(tier, 1, TIERS) - 1][1];
+		return MEM_MB[Nums.clamp(tier, 1, TIERS) - 1][1];
 	}
 
 	/** The ceiling of an axis for the GUI's "up to" hints. */
 	public static String ceilingLabel(final Part part, final int tier) {
-		final int t = Math.clamp(tier, 1, TIERS) - 1;
+		final int t = Nums.clamp(tier, 1, TIERS) - 1;
 		return switch (part) {
 			case RAM -> MEM_MB[t][1] + " MB";
 			case CPU -> CPU_PCT[t][1] + " %";

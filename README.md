@@ -11,6 +11,8 @@ you, that's a fair choice, and this notice exists so you can make it.
 Note: Some textures were made using a python script. NOT AI. AI was not used in the generation of any art assets.
 Textures may change in the future to hand-drawn ones. For now though, the textures are fine.
 
+About the commit history: This mod is mostly developed in a private repo just to ensure that my personal information isn't leaked. I only update the public repo when a new public release is ready.
+
 # VirtualMinecraft
 
 Real computers inside Minecraft — two kinds of them.
@@ -33,7 +35,11 @@ world space so your hands can learn where it is.
 
 ## Versions
 
-- Minecraft **26.2** · Fabric Loader **≥ 0.19.3** · Fabric API · **Java 25**
+- Minecraft **26.2** · Fabric Loader **≥ 0.19.3** · Fabric API · **Java 25** — `virtualminecraft-<version>.jar`
+- **or Minecraft 1.20.1** · Fabric Loader ≥ 0.16 · Fabric API 0.92.x · **Java 17+** —
+  `virtualminecraft-<version>+mc1.20.1.jar` (since 1.0.1; the same mod, built from the same sources — see
+  [mc1.20.1/README.md](mc1.20.1/README.md); the Command Computer's D-Bus display link wants Java 22+ there,
+  otherwise it uses VNC)
 - Everything the Computer needs ships in the jar. Multiplayer works; singleplayer is the primary target.
 - VR additionally needs **Vivecraft** and the `virtualminecraft-vr` jar (omit both and nothing changes).
 

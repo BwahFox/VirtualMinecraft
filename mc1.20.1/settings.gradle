@@ -1,0 +1,17 @@
+pluginManagement {
+	repositories {
+		maven {
+			name = 'Fabric'
+			url = 'https://maven.fabricmc.net/'
+		}
+		mavenCentral()
+		gradlePluginPortal()
+	}
+}
+
+// The 1.20.1 backport is its own Gradle build, on purpose: the 26.2 build in the parent directory never sees it,
+// so nothing done here can break 26.2. It compiles the version-independent code straight out of ../src (the
+// machine, the ROM, the bus, D-Bus, the RFB client) and keeps 1.20.1 versions of the Minecraft-facing files only.
+rootProject.name = 'virtualminecraft'
+
+include 'vr'

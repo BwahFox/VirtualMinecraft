@@ -1,5 +1,6 @@
 package dev.virtualminecraft.computer;
 
+import dev.virtualminecraft.util.Threads;
 import com.sun.management.ThreadMXBean;
 import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public final class LuaMachineTest {
 
 	public static void main(final String[] args) throws Exception {
 		final ThreadMXBean threads = (ThreadMXBean) ManagementFactory.getThreadMXBean();
-		final long me = Thread.currentThread().threadId();
+		final long me = Threads.id(Thread.currentThread());
 
 		// 1. kernel/host protocol: wait, events, values
 		final TestHost h1 = new TestHost();

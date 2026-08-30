@@ -1,0 +1,277 @@
+plugins {
+	// `-remap`, not plain `fabric-loom`: Loom 1.17 treats the plain id as "the game is unobfuscated" (true from 26.1
+	// on) and refuses mappings; 1.20.1 is obfuscated and needs remapping through Mojang's names.
+	id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
+	id 'maven-publish'
+}
+
+// ---- What this build is ----
+// The Minecraft 1.20.1 backport of VirtualMinecraft. Java sources come from two places:
+//   * ../src (the 26.2 tree, the real thing) for everything that has nothing to do with Minecraft: the Computer's
+//     machine, ROM, bus, D-Bus link, RFB client, the harness tests. They are synced into build/shared/ at build
+//     time and compiled from there, so they are never copied into this tree and never drift from 26.2.
+//   * src/ here for the 1.20.1 versions of the Minecraft-facing files. A file here SHADOWS the file at the same
+//     relative path in ../src: the shared sync skips it. That is the whole mechanism -- to port a file, put its
+//     1.20.1 version at the same path under mc1.20.1/src; to un-port it, delete it.
+// Resources work the same way, except that whole directories whose 1.20.1 format differs (data/, the 1.21.4+
+// item-model definitions, fabric.mod.json, the mixin config) are excluded and rebuilt here.
+//
+// The 26.2 build knows nothing about this directory. Nothing here may write into ../ at build time.
+
+def shared = rootDir.parentFile
+def sharedProps = new Properties()
+file("${shared}/gradle.properties").withInputStream { sharedProps.load(it) }
+// One mod version for both builds; "+mc1.20.1" is the build metadata, so the jar says which game it is for.
+version = "${sharedProps.getProperty('version')}+mc1.20.1"
+group = project.group
+
+repositories {
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "Modrinth"
+				url = "https://api.modrinth.com/maven"
+			}
+		}
+		filter {
+			includeGroup "maven.modrinth"
+		}
+	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "SquidDev"   // Cobalt
+				url = "https://maven.squiddev.cc"
+			}
+		}
+		filter {
+			includeGroup "cc.tweaked"
+		}
+	}
+}
+
+// ---- The shared-source sync ----
+// For each (source set, kind) a Sync task copies ../src/<set>/<kind> into build/shared/<set>/<kind>, skipping
+// every file that exists at the same relative path under this directory's src/<set>/<kind>, plus the explicit
+// excludes. The synced directory is then an ordinary source directory of the set.
+def sharedSync = { String set, String kind, List<String> excludes ->
+	def local = file("src/${set}/${kind}")
+	def fromDir = file("${shared}/src/${set}/${kind}")
+	def intoDir = layout.buildDirectory.dir("shared/${set}/${kind}")
+	def task = tasks.register("syncShared${set.capitalize()}${kind.capitalize()}", Sync) {
+		description = "Syncs ../src/${set}/${kind} minus the files this tree shadows"
+		from(fromDir)
+		into(intoDir)
+		excludes.each { exclude it }
+		exclude { FileTreeElement e -> !e.directory && new File(local, e.relativePath.pathString).exists() }
+	}
+	return [dir: intoDir, task: task]
+}
+
+// java.lang.foreign is Java 22+; the 1.20.1 jar targets 17. Libc is compiled on its own at 22 (below) and every
+// call into it is behind dev.virtualminecraft.dbus.Ffm.available(), which checks the running JVM first.
+def FFM_FILES = ['dev/virtualminecraft/dbus/Libc.java']
+
+def mainJava = sharedSync('main', 'java', FFM_FILES)
+def mainRes = sharedSync('main', 'resources', [
+	'fabric.mod.json',
+	'virtualminecraft.mixins.json',
+	'data/**',                          // 1.20.1 folder names and formats differ; rebuilt under src/main/resources/data
+	'assets/virtualminecraft/items/**', // 1.21.4+ item-model definitions; 1.20.1 uses models/item/*.json
+	'assets/virtualminecraft/lang/**',  // merged with src/main/resources/lang-extra by mergeLang below
+	'lang-extra/**',
+])
+def clientJava = sharedSync('client', 'java', [])
+def clientRes = sharedSync('client', 'resources', ['virtualminecraft.client.mixins.json'])
+def testJava = sharedSync('test', 'java', [])
+def testRes = sharedSync('test', 'resources', [])
+def ffmJava = tasks.register("syncSharedFfmJava", Sync) {
+	from("${shared}/src/main/java")
+	into(layout.buildDirectory.dir("shared/ffm/java"))
+	include FFM_FILES
+}
+
+loom {
+	splitEnvironmentSourceSets()   // creates the `client` source set; must run before it is configured below
+}
+
+// 1.20.1 derives a few translation keys differently (the villager profession's name, for one). The shared lang
+// file cannot grow a key without a copy of the whole file, so the copy is made here: shared + lang-extra, merged.
+def mergedLang = layout.buildDirectory.dir("generated/lang")
+def mergeLang = tasks.register("mergeLang") {
+	def sharedLang = file("${shared}/src/main/resources/assets/virtualminecraft/lang")
+	def extraLang = file("src/main/resources/lang-extra")
+	inputs.dir(sharedLang)
+	inputs.dir(extraLang)
+	outputs.dir(mergedLang)
+	doLast {
+		def slurper = new groovy.json.JsonSlurper()
+		sharedLang.listFiles().findAll { it.name.endsWith(".json") }.each { f ->
+			def merged = new LinkedHashMap(slurper.parse(f))
+			def extra = new File(extraLang, f.name)
+			if (extra.isFile()) merged.putAll(slurper.parse(extra))
+			def out = new File(mergedLang.get().asFile, "assets/virtualminecraft/lang/${f.name}")
+			out.parentFile.mkdirs()
+			out.text = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(merged)) + "\n"
+		}
+	}
+}
+
+sourceSets {
+	ffm {
+		java.srcDirs = [layout.buildDirectory.dir("shared/ffm/java")]
+	}
+	main {
+		java.srcDirs = ['src/main/java', mainJava.dir]
+		resources.srcDirs = ['src/main/resources', mainRes.dir, mergedLang]
+		resources.exclude 'lang-extra/**'
+		compileClasspath += sourceSets.ffm.output
+		runtimeClasspath += sourceSets.ffm.output
+	}
+	client {
+		java.srcDirs = ['src/client/java', clientJava.dir]
+		resources.srcDirs = ['src/client/resources', clientRes.dir]
+		// The client run builds its classpath from this set's own properties, not main's: without these two
+		// lines a dev client has no Libc, Ffm.available() quietly says no, and every VM starts with -display none.
+		compileClasspath += sourceSets.ffm.output
+		runtimeClasspath += sourceSets.ffm.output
+	}
+	test {
+		java.srcDirs = ['src/test/java', testJava.dir]
+		resources.srcDirs = ['src/test/resources', testRes.dir]
+	}
+}
+tasks.named("compileFfmJava") { dependsOn ffmJava }
+tasks.named("compileJava") { dependsOn mainJava.task }
+tasks.named("processResources") { dependsOn mainRes.task, mergeLang }
+tasks.named("compileClientJava") { dependsOn clientJava.task }
+tasks.named("processClientResources") { dependsOn clientRes.task }
+tasks.named("compileTestJava") { dependsOn testJava.task }
+tasks.named("processTestResources") { dependsOn testRes.task }
+tasks.matching { it.name == "sourcesJar" }.configureEach { dependsOn mainJava.task, mainRes.task, clientJava.task, clientRes.task, ffmJava, mergeLang }
+
+loom {
+	mods {
+		"virtualminecraft" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+			sourceSet sourceSets.ffm
+		}
+	}
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings loom.officialMojangMappings()
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+	// Loom's `-remap` plugin does not put the loader's own libraries on the compile classpath the way the plain
+	// plugin does for 26.2 (they are in fabric-loader's fabric-installer.json); the client mixin needs Mixin itself.
+	implementation "net.fabricmc:sponge-mixin:0.17.3+mixin.0.8.7"
+	implementation "io.github.llamalad7:mixinextras-fabric:0.5.4"
+	// 26.2 ships org.jspecify with the game; 1.20.1 does not, and the shared code annotates with it
+	compileOnly "org.jspecify:jspecify:1.0.0"
+	clientCompileOnly "org.jspecify:jspecify:1.0.0"
+	ffmCompileOnly "org.jspecify:jspecify:1.0.0"
+	testCompileOnly "org.jspecify:jspecify:1.0.0"
+
+	implementation "cc.tweaked:cobalt:${project.cobalt_version}"
+	include "cc.tweaked:cobalt:${project.cobalt_version}"
+	["runtime", "compiler", "wasm"].each { a ->
+		testImplementation "com.dylibso.chicory:${a}:${project.chicory_version}"
+	}
+	testImplementation sourceSets.ffm.output
+}
+
+tasks.named("test") {
+	failOnNoDiscoveredTests = false
+}
+
+// The same harnesses as the 26.2 build (they are the shared code's tests, run here against the Java 17 compile).
+[
+	[name: "luaMachineTest", main: "dev.virtualminecraft.computer.LuaMachineTest", desc: "kernel protocol, sandbox, preemption, memory meter", xmx: true],
+	[name: "schedulerTest", main: "dev.virtualminecraft.computer.SchedulerTest", desc: "worker pool fairness, wake on event, CPU share, allocation monitor", xmx: true],
+	[name: "screenDeviceTest", main: "dev.virtualminecraft.computer.ScreenDeviceTest", desc: "the Computer's indexed framebuffer outside Minecraft"],
+	[name: "machineFilesTest", main: "dev.virtualminecraft.computer.MachineFilesTest", desc: "the Computer's storage layer outside Minecraft"],
+	[name: "chassisVoiceTest", main: "dev.virtualminecraft.computer.ChassisVoiceTest", desc: "the hardware voice"],
+	[name: "soundChipTest", main: "dev.virtualminecraft.computer.SoundChipTest", desc: "the Computer's sound chip outside Minecraft"],
+	[name: "blockShapeTest", main: "dev.virtualminecraft.block.BlockShapeTest", desc: "block collision shapes and their units"],
+	[name: "romBootTest", main: "dev.virtualminecraft.computer.RomBootTest", desc: "boots the ROM kernel outside Minecraft"],
+].each { t ->
+	tasks.register(t.name, JavaExec) {
+		group = "verification"
+		description = "Run ${t.main.tokenize('.').last()}: ${t.desc}"
+		classpath = sourceSets.test.runtimeClasspath
+		mainClass = t.main
+		if (t.xmx) jvmArgs "-Xmx2G"
+	}
+}
+
+tasks.register("computerEmulator", JavaExec) {
+	group = "application"
+	description = "Run the Computer's ROM in a desktop window outside Minecraft"
+	classpath = sourceSets.test.runtimeClasspath
+	mainClass = "dev.virtualminecraft.computer.ComputerEmulator"
+	workingDir = project.projectDir
+}
+
+loom {
+	runs {
+		server {
+			runDir "run/server"
+			vmArg("--enable-native-access=ALL-UNNAMED")
+		}
+		client {
+			environmentVariable("__GL_THREADED_OPTIMIZATIONS", "0")
+			vmArg("--enable-native-access=ALL-UNNAMED")
+			if (System.getProperty("virtualminecraft.puppet") != null) {
+				vmArg("-Dvirtualminecraft.puppet=" + System.getProperty("virtualminecraft.puppet"))
+			}
+			if (System.getProperty("virtualminecraft.debugOpenScreen") != null) {
+				vmArg("-Dvirtualminecraft.debugOpenScreen=" + System.getProperty("virtualminecraft.debugOpenScreen"))
+			}
+		}
+	}
+}
+
+processResources {
+	def version = project.version
+	inputs.property "version", version
+	filesMatching("fabric.mod.json") {
+		expand "version": version
+	}
+}
+
+// Java 17, 1.20.1's own minimum, so the jar fits any 1.20.1 modpack ([name], 2026-08-30). The shared code stays
+// 17-clean through dev.virtualminecraft.util.Nums (Math.clamp) and .Threads (virtual threads, threadId); the
+// `ffm` set below is the one exception and is loaded only behind Ffm.available().
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 17
+	it.options.compilerArgs << "-Xmaxerrs" << "5000"
+}
+tasks.named("compileFfmJava") {
+	options.release = 22   // java.lang.foreign, final in 22
+}
+
+java {
+	withSourcesJar()
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
+}
+
+jar {
+	from sourceSets.ffm.output
+	def projectName = project.name
+	inputs.property "projectName", projectName
+	from("${shared}/LICENSE") {
+		rename { "${it}_$projectName"}
+	}
+}
+
+publishing {
+	publications {
+		create("mavenJava", MavenPublication) {
+			from components.java
+		}
+	}
+}

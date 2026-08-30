@@ -629,3 +629,17 @@ front of you the way Vivecraft always did.
 mappings, Vivecraft turns any mod's key mapping into a bindable controller action, and holding the stick repeats
 the way holding a wheel would. The one thing VR still does not have is a mouse you can push across a desk —
 parked on purpose, because a pointed ray is a touchscreen, and nothing on these machines wants mouselook yet.
+
+## Ch. 17 — The same mod on 1.20.1
+
+You asked for a 1.20.1 version so the mod could sit in a modpack with everything else, and for it to be the
+same mod. It is: the computer, its ROM, every program on every CD, the bus, the disks, the store, the clerk —
+all of that is compiled from the very same files the 26.2 build uses, not copied. Only the thin layer that talks
+to Minecraft itself (how a block saves, how a packet is sent, how a texture is drawn) was written a second time
+in 1.20.1's dialect, in `mc1.20.1/`. When a file exists there, it is the 1.20.1 version of the 26.2 file at the
+same path; when it does not, the 26.2 file is used as it is.
+
+Two practical things. It needs nothing newer than **Java 17**, which is what 1.20.1 itself needs, so it fits
+any 1.20.1 modpack as it is. And if the instance happens to run on Java 22 or newer, the Command Computer's
+keyboard goes through the QEMU D-Bus link exactly as on 26.2; on 17 through 21 it falls back to VNC, which still
+works, just like it does on Windows.

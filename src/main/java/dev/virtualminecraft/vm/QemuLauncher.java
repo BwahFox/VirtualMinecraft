@@ -41,7 +41,7 @@ public final class QemuLauncher {
 
 	/** Config says so, the host is Linux with FFM, and QEMU has the module. */
 	public static boolean wantsDbusDisplay(final VmcConfig global) {
-		return !"vnc".equalsIgnoreCase(global.display) && !isWindows() && dev.virtualminecraft.dbus.Libc.available() && dbusDisplayAvailable(global);
+		return !"vnc".equalsIgnoreCase(global.display) && !isWindows() && dev.virtualminecraft.dbus.Ffm.available() && dbusDisplayAvailable(global);
 	}
 
 	public static boolean isWindows() {

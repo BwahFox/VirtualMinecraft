@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:written_book",
+          "functions": [
+            {
+              "function": "minecraft:set_nbt",
+              "tag": "{title:\"Notes on the Machine\",author:\"someone who owned one\",generation:1,pages:[\"{\\\"text\\\": \\\"I have written this out because I am tired of explaining it.\\\\n\\\\nThe grey box is a computer. It is not a picture of one. It has memory and a processor in it, and if you take those out it stops being anything at all.\\\"}\",\"{\\\"text\\\": \\\"An empty box does nothing and says so. Put memory and a processor in it and it wakes up. A graphics card is what gives it a picture; a hard drive is what gives it somewhere to keep things.\\\\n\\\\nA screen goes above it. It will find it by itself.\\\"}\",\"{\\\"text\\\": \\\"Everything else it knows how to explain on its own.\\\\n\\\\nThere is a Manual on the desktop. Ten pages. It is better written than this book and it is already on the machine, which is the point of it.\\\"}\",\"{\\\"text\\\": \\\"If you would rather type, open the Terminal and write:\\\\n\\\\n  man\\\\n\\\\nand it will list the pages.\\\\n\\\\nThat is all I meant to say. Go and put something in the box.\\\"}\"]}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

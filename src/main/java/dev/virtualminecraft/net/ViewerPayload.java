@@ -1,6 +1,7 @@
 package dev.virtualminecraft.net;
 
 import dev.virtualminecraft.VirtualMinecraft;
+import dev.virtualminecraft.util.Nums;
 import java.util.UUID;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -23,7 +24,7 @@ public record ViewerPayload(UUID vm, boolean needFullFrame, int lod) implements 
 	private void write(final FriendlyByteBuf buf) {
 		buf.writeUUID(vm);
 		buf.writeBoolean(needFullFrame);
-		buf.writeByte(Math.clamp(lod, 0, MAX_LOD));
+		buf.writeByte(Nums.clamp(lod, 0, MAX_LOD));
 	}
 
 	@Override

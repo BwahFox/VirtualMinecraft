@@ -1,5 +1,6 @@
 package dev.virtualminecraft.bus;
 
+import dev.virtualminecraft.util.Nums;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
@@ -127,7 +128,7 @@ public final class WorldComponent implements Component {
 				return new JsonPrimitive(level.getMaxLocalRawBrightness(p));
 			}
 			case "getPlayers": {
-				final double radius = args.isEmpty() ? MAX_PLAYER_RANGE : Math.clamp(number(arg(args, 0), "radius"), 0, MAX_PLAYER_RANGE);
+				final double radius = args.isEmpty() ? MAX_PLAYER_RANGE : Nums.clamp(number(arg(args, 0), "radius"), 0, MAX_PLAYER_RANGE);
 				final double r2 = radius * radius;
 				final JsonArray out = new JsonArray();
 				for (final ServerPlayer p : level.players()) {

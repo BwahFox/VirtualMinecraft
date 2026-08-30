@@ -5,6 +5,7 @@ import dev.virtualminecraft.client.input.InputSender;
 import dev.virtualminecraft.client.input.KeyRelay;
 import dev.virtualminecraft.client.render.ScreenTexture;
 import dev.virtualminecraft.client.render.ScreenTextures;
+import dev.virtualminecraft.util.Nums;
 import java.util.UUID;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
@@ -155,7 +156,7 @@ public class VmScreen extends Screen {
 		if (full <= 0 || fitW <= 0) {
 			return 0;
 		}
-		return (int) Math.clamp(Math.round((mouseX - fitX) / fitW * full), 0, full - 1);
+		return (int) Nums.clamp(Math.round((mouseX - fitX) / fitW * full), 0, full - 1);
 	}
 
 	private int fbY(final double mouseY) {
@@ -163,7 +164,7 @@ public class VmScreen extends Screen {
 		if (full <= 0 || fitH <= 0) {
 			return 0;
 		}
-		return (int) Math.clamp(Math.round((mouseY - fitY) / fitH * full), 0, full - 1);
+		return (int) Nums.clamp(Math.round((mouseY - fitY) / fitH * full), 0, full - 1);
 	}
 
 	private static int rfbButton(final int glfwButton) {

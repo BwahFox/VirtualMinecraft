@@ -1,6 +1,7 @@
 package dev.virtualminecraft.vm;
 
 import dev.virtualminecraft.config.VmcConfig;
+import dev.virtualminecraft.util.Nums;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import net.minecraft.network.FriendlyByteBuf;
@@ -67,9 +68,9 @@ public final class VmConfig {
 			name = name.substring(0, 32);
 		}
 		final VmcConfig global = VmcConfig.get();
-		memMb = Math.clamp(memMb, 64, Math.max(64, global.maxMemMbPerVm));
-		cpus = Math.clamp(cpus, 1, Math.max(1, global.maxCpusPerVm));
-		diskGb = Math.clamp(diskGb, 0, Math.max(0, global.maxDiskGbPerVm));
+		memMb = Nums.clamp(memMb, 64, Math.max(64, global.maxMemMbPerVm));
+		cpus = Nums.clamp(cpus, 1, Math.max(1, global.maxCpusPerVm));
+		diskGb = Nums.clamp(diskGb, 0, Math.max(0, global.maxDiskGbPerVm));
 		if (iso == null) {
 			iso = "";
 		}
@@ -85,7 +86,7 @@ public final class VmConfig {
 		if (extraArgs == null) {
 			extraArgs = "";
 		}
-		wakeThreshold = Math.clamp(wakeThreshold, 0, 15);
+		wakeThreshold = Nums.clamp(wakeThreshold, 0, 15);
 	}
 
 	/**
