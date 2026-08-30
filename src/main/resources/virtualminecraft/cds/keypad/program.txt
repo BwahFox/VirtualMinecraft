@@ -1,0 +1,2 @@
+Keypad
+A PIN pad that drives a redstone output. Type or click the code, OK to enter; the output goes on for a few seconds and relocks itself. The PIN is saved on this machine, not on the CD. S picks the side, P sets a new PIN, Q quits.

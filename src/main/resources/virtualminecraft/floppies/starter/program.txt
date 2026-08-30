@@ -1,0 +1,2 @@
+Starter
+Your first program, on a floppy you can write to. Open main.lua in Edit, change something, run it again.

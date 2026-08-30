@@ -1,0 +1,9 @@
+{
+	"parent": "minecraft:block/cube_bottom_top",
+	"textures": {
+		"particle": "virtualminecraft:block/modem",
+		"bottom": "virtualminecraft:block/modem",
+		"top": "virtualminecraft:block/modem_top",
+		"side": "virtualminecraft:block/modem"
+	}
+}

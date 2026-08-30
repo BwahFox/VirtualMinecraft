@@ -1,0 +1,17 @@
+When something goes wrong
+
+Nothing happens when I place it. Open the case. It will say what is missing -- almost always a processor or memory, because a case is only a box.
+
+The monitor is dark. Either the machine is off, or it has no graphics card, or the monitor is not linked to it. A monitor placed against the computer links itself; one placed by a command does not.
+
+The machine is running but there is no picture. It has no graphics card. It is not broken and its programs are fine; it has nowhere to draw.
+
+There is no /disk. It has no hard drive. The shell will have started in /rom instead, which is read-only, so save things to a floppy until you fit one.
+
+A program said "not enough memory". It asked for more than this machine has. Close some windows, or put a bigger memory part in, or run it on a bigger case. top shows what you have.
+
+A program stopped and put up an error. That is all it did -- the machine is fine. Close the box and run it again. If you wrote it, the message names the line.
+
+Everything is slow. Check top. A processor part raises the share of a core this machine gets, and a machine full of running programs is sharing one budget between them.
+
+I put a disk in and nothing appeared. Give it a second, then check the drive is touching the computer or on the same cable, and that the disk is not from another machine -- a foreign disk has to be formatted first, and formatting erases it.

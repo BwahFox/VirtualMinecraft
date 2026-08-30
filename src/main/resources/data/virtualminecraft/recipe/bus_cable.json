@@ -1,0 +1,15 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"key": {
+		"N": "minecraft:iron_nugget",
+		"R": "minecraft:redstone"
+	},
+	"pattern": [
+		"NRN"
+	],
+	"result": {
+		"id": "virtualminecraft:bus_cable",
+		"count": 6
+	}
+}

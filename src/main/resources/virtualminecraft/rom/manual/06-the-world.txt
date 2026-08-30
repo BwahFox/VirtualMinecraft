@@ -1,0 +1,15 @@
+The world outside
+
+This is the part no other computer has: it can see the world it is standing in, and touch it.
+
+Put a Bus Cable next to the computer and run it wherever you like. Anything on that cable -- a monitor, a disk drive, a modem -- belongs to the computer. Blocks touching the computer count too, so a short setup needs no cable at all.
+
+Redstone. The computer reads the signal on each of its six sides and can drive one. rs on its own lists all six. rs set right 7 puts a level of 7 out to the right. rs wake 8 makes a sleeping machine start up when the signal reaches 8, which is how you wire a computer to a lever.
+
+Containers. A chest on the bus is readable and writable: inv lists them, inv 1 lists what is in the first, inv move 1 3 2 pushes a stack from one into another. The Inventory app is the same thing with a picture.
+
+The world itself. world prints where the machine is, the day and time, the weather, the biome and who is standing near. The World app shows it live, with a strip for the time of day.
+
+Sound. The computer has a speaker of its own and makes noise for the world to hear -- Music writes songs on it, and any program can.
+
+Chat. It can read the chat and say things in it, which is how a machine tells you something while you are three hundred blocks away.

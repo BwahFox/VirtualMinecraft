@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"key": {
+		"I": "minecraft:iron_ingot",
+		"M": "minecraft:diamond",
+		"R": "minecraft:redstone"
+	},
+	"pattern": [
+		"III",
+		"IMI",
+		"IRI"
+	],
+	"result": {
+		"id": "virtualminecraft:drive_3"
+	}
+}

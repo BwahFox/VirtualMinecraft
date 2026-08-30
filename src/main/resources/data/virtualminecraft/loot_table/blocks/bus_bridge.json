@@ -1,0 +1,22 @@
+{
+	"type": "minecraft:block",
+	"pools": [
+		{
+			"rolls": 1.0,
+			"bonus_rolls": 0.0,
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"name": "virtualminecraft:bus_bridge",
+					"functions": [
+						{ "function": "minecraft:copy_components", "source": "block_entity", "include": [ "virtualminecraft:bridge_pair" ] }
+					]
+				}
+			],
+			"conditions": [
+				{ "condition": "minecraft:survives_explosion" }
+			]
+		}
+	],
+	"random_sequence": "virtualminecraft:blocks/bus_bridge"
+}

@@ -1,0 +1,120 @@
+# Hangman's word list. One word per line; # starts a comment and blank lines are skipped.
+# Letters only, please — the game draws A-Z and nothing else. Copy this file to /disk/words.txt to use
+# your own list instead; the game prefers the disk copy if it finds one, so a player can make the game theirs
+# without touching the CD (which is read-only anyway).
+#
+# The words lean on the world the computer is standing in, because a machine inside Minecraft guessing
+# "ELEPHANT" is a machine that could be anywhere.
+
+# --- the world
+BEDROCK
+OBSIDIAN
+REDSTONE
+DIAMOND
+EMERALD
+GRANITE
+ANDESITE
+DIORITE
+GRAVEL
+BASALT
+DEEPSLATE
+AMETHYST
+CALCITE
+CLAY
+SANDSTONE
+NETHERRACK
+GLOWSTONE
+QUARTZ
+MAGMA
+ICE
+SNOW
+MYCELIUM
+PODZOL
+LANTERN
+TORCH
+
+# --- living things
+CREEPER
+ENDERMAN
+SKELETON
+ZOMBIE
+SPIDER
+WITCH
+VILLAGER
+PIGLIN
+HOGLIN
+BLAZE
+GHAST
+SLIME
+SHULKER
+GUARDIAN
+DOLPHIN
+AXOLOTL
+PARROT
+OCELOT
+WOLF
+SHEEP
+CHICKEN
+RABBIT
+TURTLE
+ALLAY
+WARDEN
+
+# --- places
+VILLAGE
+FORTRESS
+STRONGHOLD
+MONUMENT
+MANSION
+TEMPLE
+MINESHAFT
+RAVINE
+BIOME
+OVERWORLD
+NETHER
+BADLANDS
+TAIGA
+SAVANNA
+JUNGLE
+SWAMP
+CAVERN
+
+# --- things a player makes
+FURNACE
+ANVIL
+CAULDRON
+BEACON
+HOPPER
+PISTON
+OBSERVER
+COMPARATOR
+REPEATER
+DISPENSER
+SCAFFOLDING
+CAMPFIRE
+LOOM
+COMPOSTER
+SMOKER
+GRINDSTONE
+LODESTONE
+CONDUIT
+ELYTRA
+TRIDENT
+CROSSBOW
+ENCHANTING
+BREWING
+POTION
+COMPASS
+
+# --- and a few from the machine this is running on
+COMPUTER
+MONITOR
+KEYBOARD
+FLOPPY
+TERMINAL
+KERNEL
+PIXEL
+PALETTE
+CURSOR
+MODEM
+CABLE

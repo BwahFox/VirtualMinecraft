@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": { "model": "virtualminecraft:block/command_computer" },
+		"facing=east": { "model": "virtualminecraft:block/command_computer", "y": 90 },
+		"facing=south": { "model": "virtualminecraft:block/command_computer", "y": 180 },
+		"facing=west": { "model": "virtualminecraft:block/command_computer", "y": 270 }
+	}
+}

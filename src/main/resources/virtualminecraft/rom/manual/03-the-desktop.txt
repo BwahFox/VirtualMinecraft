@@ -1,0 +1,13 @@
+The desktop
+
+Down the left are the icons -- the built-in apps, and any program on a disk you have put in. Click one and it opens.
+
+Along the bottom is the taskbar: the Apps button at the left opens the start menu, the open windows sit next to it, and the clock is at the right. The clock is the world's, not yours.
+
+A window has three boxes in its title bar. The right one closes it, the middle one makes it fill the screen and puts it back again, the left one minimises it to the taskbar. Drag the title bar to move it and the corner to resize it. Ctrl+Q closes whatever is on top.
+
+Right-click almost anything. The desktop, an icon, a title bar and most apps each have their own menu, and that is where the less common things live.
+
+Settings has the wallpaper, the accent colour, the sound volume, the screensaver, the text size, and the Boot page -- which decides whether this machine comes up in the desktop or in the shell, whatever its case would have chosen.
+
+The desktop remembers itself. Your windows, where they were, and what was in them come back after the machine has been asleep, and after the world has been closed and opened again.

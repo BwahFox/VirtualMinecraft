@@ -1,0 +1,2 @@
+Blocks
+Seven shapes fall into a ten-wide well; fill a row and it goes. Left and right move, Up turns, Down hurries, Space drops it all the way, P pauses, R starts again, Q quits.

@@ -1,0 +1,12 @@
+{
+	"parent": "minecraft:block/cube",
+	"textures": {
+		"particle": "virtualminecraft:block/monitor_side",
+		"down": "virtualminecraft:block/monitor_side",
+		"up": "virtualminecraft:block/monitor_side",
+		"north": "virtualminecraft:block/monitor_front",
+		"south": "virtualminecraft:block/monitor_back",
+		"east": "virtualminecraft:block/monitor_side",
+		"west": "virtualminecraft:block/monitor_side"
+	}
+}

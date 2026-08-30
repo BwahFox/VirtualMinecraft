@@ -1,0 +1,150 @@
+plugins {
+	id 'net.fabricmc.fabric-loom'
+}
+
+// The VR module (ROADMAP §9 U4.0, "the seam"). Its own jar: without it, nothing about the mod changes.
+// Everything Vivecraft-facing goes here and nothing else does — a Minecraft update touches the main mod, a
+// Vivecraft update touches this. It compiles against the main mod's client source set for the seam interfaces
+// (PointerSource, TextSource, Pointers) and against nothing else of it.
+//
+// Vivecraft is NOT a dependency yet, on purpose. It goes in as `modCompileOnly` — compile-time only, so this jar
+// never ships anyone else's code (HANDOFF's standing rule) — when there is a resolvable 26.2 build to point at,
+// and the one line to add is commented below. Until then this module is a skeleton that registers nothing, which
+// is exactly what the seam promises: a build with the VR jar and no headset behaves like a build without it.
+version = project.version
+group = project.group
+base {
+	archivesName = "virtualminecraft-vr" // §9 U4.0 names the artefact; "vr-0.1.0.jar" says nothing in a mods folder
+}
+
+repositories {
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "Modrinth"
+				url = "https://api.modrinth.com/maven"
+			}
+		}
+		filter {
+			includeGroup "maven.modrinth"
+		}
+	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "SquidDev"   // Cobalt, for the dev run's classpath (see the dependency below)
+				url = "https://maven.squiddev.cc"
+			}
+		}
+		filter {
+			includeGroup "cc.tweaked"
+		}
+	}
+}
+
+// The Vivecraft jar [name] has put in `vivecraft/`, if any. Named rather than versioned so a new download is
+// picked up by dropping it in and deleting the old one.
+def vivecraftDir = rootProject.file("vivecraft")
+def vivecraftJar = vivecraftDir.isDirectory() ? vivecraftDir.listFiles().find { it.name.startsWith("vivecraft-") && it.name.endsWith(".jar") } : null
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+	// The seam, and nothing else of the main mod. Loom splits the root project's environments, so the client
+	// source set (where PointerSource lives) has to be named explicitly -- a plain project(":") dependency would
+	// give us `main` only and the seam would be invisible.
+	implementation rootProject.sourceSets.main.output
+	implementation rootProject.sourceSets.client.output
+
+	// Cobalt, the Computer's Lua runtime. A source set's *output* carries its classes and nothing it depends on,
+	// so borrowing the main mod's classes above does not bring this with it -- and the first Computer to tick in
+	// `:vr:runClient` dies with `NoClassDefFoundError: org/squiddev/cobalt/compiler/CompileException`. It only
+	// ever bit the dev run: a real install has Cobalt shaded into the main jar (`include`), so this is a
+	// classpath gap in the harness rather than anything a player could hit.
+	implementation "cc.tweaked:cobalt:${project.cobalt_version}"
+
+	// Vivecraft, compile-time only and for ever: we never redistribute anyone else's code. [name] drops the jar
+	// in `vivecraft/` at the repo root (gitignored, so it is never committed); a clone without it still builds,
+	// which is why this is a fileTree and not a hard dependency -- the module compiles against the seam alone
+	// until something here actually reaches for a Vivecraft class.
+	// Plain compileOnly, not loom's modCompileOnly, and deliberately: this jar is already mapped to **official**
+	// names -- `javap` on it prints `net.minecraft.world.phys.Vec3`, not `net.minecraft.class_243` -- so there is
+	// nothing to remap, and loom's modCompileOnly has no overload taking a local file anyway. compileOnly is also
+	// the point: the jar is on the compile classpath and never in ours.
+	if (vivecraftJar != null) {
+		compileOnly files(vivecraftJar)
+		logger.lifecycle("vr: compiling against ${vivecraftJar.name}")
+	}
+}
+
+processResources {
+	inputs.property "version", project.version
+	filesMatching("fabric.mod.json") {
+		expand "version": project.version
+	}
+}
+
+// ---- Running the dev client in VR (§9 U4) ----
+//
+// `:vr:runClient` is the only run configuration that can be VR at all: the VR jar hard-depends on `vivecraft`, so
+// the root project's `runClient` refuses to load it (that is the "Incompatible mods found!" dialog, and it is
+// correct behaviour, not a bug). What makes this one work is putting the real Vivecraft jar where Fabric can
+// *load* it rather than only compile against it -- `vr/run/mods/` -- which is still not redistribution: the file
+// is [name]'s own download, `vivecraft/` and `vr/run/mods/` are both gitignored, and nothing of it enters the repo
+// or our jars.
+//
+// The main mod comes along automatically: this module has the root project's `main` and `client` outputs on its
+// classpath, and they carry `virtualminecraft`'s own fabric.mod.json, so Fabric loads it as a mod.
+
+/** The Vivecraft jar, if [name] has put one in `vivecraft/`. Named rather than versioned, so a new download is a drop-in. */
+def vivecraftRunJar = vivecraftJar
+
+tasks.register("copyVivecraftToRun", Copy) {
+	description = "Puts the Vivecraft jar where the dev client can load it (vr/run/mods/)."
+	onlyIf { vivecraftRunJar != null }
+	if (vivecraftRunJar != null) {
+		from vivecraftRunJar
+	}
+	into file("run/mods")
+}
+
+// WiVRn is the OpenXR runtime ([name]'s stack: Linux + WiVRn + Quest 3), installed as a flatpak. Its manifest uses
+// paths relative to itself, so it resolves to real files outside the sandbox and a native app can use it -- every
+// dependency of `libopenxr_wivrn.so` was checked to resolve on the host (2026-08-29). Without this the loader
+// falls back to whatever `active_runtime.json` says, and on this machine that is nothing at all, so Vivecraft
+// would simply never find a headset. Set XR_RUNTIME_JSON yourself to override.
+def wivrnManifest = file("/var/lib/flatpak/app/io.github.wivrn.wivrn/current/active/files/share/openxr/1/openxr_wivrn.json")
+
+loom {
+	runs {
+		client {
+			// NVIDIA threaded optimizations fight with off-thread texture uploads (same as the root project).
+			environmentVariable("__GL_THREADED_OPTIMIZATIONS", "0")
+			vmArg("--enable-native-access=ALL-UNNAMED")
+			// Vivecraft asks for this and it logs which collector it got ("Garbage collector: G1" without it).
+			// A G1 pause is a dropped frame, and a dropped frame in a headset is not a stutter, it is nausea --
+			// which is why this is a VR-only argument and the desktop runs stay on the default.
+			vmArg("-XX:+UseZGC")
+			if (System.getenv("XR_RUNTIME_JSON") != null) {
+				logger.lifecycle("vr: XR_RUNTIME_JSON is set in the environment, leaving it alone")
+			} else if (wivrnManifest.isFile()) {
+				environmentVariable("XR_RUNTIME_JSON", wivrnManifest.absolutePath)
+				logger.lifecycle("vr: OpenXR runtime = WiVRn (${wivrnManifest})")
+			} else {
+				logger.warn("vr: no WiVRn manifest at ${wivrnManifest} -- Vivecraft will look for some other OpenXR runtime")
+			}
+			// The puppet, same switch the root project uses. Read-only commands (`pos`, `vrpointer`, `screenshot`)
+			// are how anyone outside the headset can see what is happening, and while the headset is on that is
+			// the only way: the person wearing it cannot read the screen or type.
+			if (System.getProperty("virtualminecraft.puppet") != null) {
+				vmArg("-Dvirtualminecraft.puppet=" + System.getProperty("virtualminecraft.puppet"))
+			}
+		}
+	}
+}
+
+tasks.named("runClient") {
+	dependsOn "copyVivecraftToRun"
+}

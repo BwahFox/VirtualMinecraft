@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"key": {
+		"I": "minecraft:iron_ingot",
+		"S": "#minecraft:wooden_slabs",
+		"R": "minecraft:redstone"
+	},
+	"pattern": [
+		"III",
+		"ISI",
+		"IRI"
+	],
+	"result": {
+		"id": "virtualminecraft:disk_drive"
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"key": {
+		"P": "minecraft:paper",
+		"N": "minecraft:iron_nugget",
+		"R": "minecraft:redstone"
+	},
+	"pattern": [
+		"PP",
+		"NR"
+	],
+	"result": {
+		"id": "virtualminecraft:floppy",
+		"count": 4
+	}
+}

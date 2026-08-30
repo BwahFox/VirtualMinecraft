@@ -1,0 +1,19 @@
+{
+  "wants": {
+    "id": "minecraft:emerald",
+    "count": 3
+  },
+  "gives": {
+    "id": "virtualminecraft:floppy",
+    "components": {
+      "virtualminecraft:disk": {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "sizeMb": 1,
+        "iso": "floppies:starter"
+      }
+    }
+  },
+  "max_uses": 8.0,
+  "reputation_discount": 0.05,
+  "xp": 5
+}

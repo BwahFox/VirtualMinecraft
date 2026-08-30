@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"key": {
+		"I": "minecraft:iron_ingot",
+		"R": "minecraft:redstone",
+		"G": "minecraft:glass_pane",
+		"S": "#minecraft:wooden_slabs"
+	},
+	"pattern": [
+		"III",
+		"RGR",
+		"ISI"
+	],
+	"result": {
+		"id": "virtualminecraft:basic_computer"
+	}
+}

@@ -1,0 +1,11 @@
+Talking to other computers
+
+Two computers on the same bus cable can talk. So can two touching each other. net lists everyone this machine can reach and net send <name> <text> says something to one of them; the Network app is the same list with a message log.
+
+Distance is not the problem it looks like. A Bus Bridge is a pair of blocks crafted together: put one at each end of wherever you are and the two runs of cable behave as one, however far apart they are. Two machines at opposite corners of the world can hold a conversation with nothing loaded in between.
+
+A wireless Modem does the same job over a shorter range and without the pair -- put one on each bus and anything in radio range shows up in net as wireless.
+
+What that is for: the Server and Browser CDs. Server puts the pages on its /disk out where other machines can ask for them; Browser reads them, follows links between them and downloads files. It is a small web, inside one world, made of machines you built.
+
+A server has to stay up, and a machine nobody is looking at goes to sleep. Two answers, and you want both. Anything asking for a machine over the bus wakes it. And /disk/autostart.lua, if it exists, is run at every boot -- so a machine that is meant to serve says so in one line and then always does.

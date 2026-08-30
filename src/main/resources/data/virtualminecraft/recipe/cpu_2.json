@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"key": {
+		"R": "minecraft:redstone",
+		"M": "minecraft:quartz",
+		"G": "minecraft:gold_nugget"
+	},
+	"pattern": [
+		"RRR",
+		"RMR",
+		"RGR"
+	],
+	"result": {
+		"id": "virtualminecraft:cpu_2"
+	}
+}

@@ -1,0 +1,2 @@
+Browser
+Reads pages served by other computers. Opens on everything this machine can reach - click one to visit it. Click links or press their number, Backspace goes back, G types an address, B bookmarks, R reloads, H lists the keys, Q quits.

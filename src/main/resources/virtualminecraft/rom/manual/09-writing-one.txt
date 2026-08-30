@@ -1,0 +1,21 @@
+Writing your own
+
+Everything on this machine is Lua and none of it is hidden. Read one first: examples lists the small ones in /rom/examples, and examples window is a program with a window in about thirty lines.
+
+The smallest thing that works. Open Edit, save this as /disk/hello.lua, and type hello at the prompt.
+
+  print("hello")
+
+To make a game rather than a line of output you want the screen. gfx.size() is how big it is, gfx.fill and gfx.text draw, gfx.present() ends a frame. Keys arrive through your program object; the examples show the shape better than a paragraph can.
+
+To keep something across a sleep, three lines:
+
+  program.version = 1
+  program.save = function() return { score = score } end
+  local kept = program.restore()
+
+The kernel calls your save when the machine is put away and hands the table back when it comes out. It is data, not a snapshot, so it still works after the mod has been updated.
+
+A program you want to hand out is a directory with two files in it: main.lua, and program.txt whose first line is the name and second line the description. Put it anywhere writable, burn it onto a CD from Files, and it is a program.
+
+There is a proper guide outside the game -- PROGRAMMING.md in the mod's own folder -- with the whole toolkit, the widgets and every mistake somebody has already made for you.

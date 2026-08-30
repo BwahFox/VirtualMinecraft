@@ -1,0 +1,2 @@
+Calculator
+A four-function desk calculator with a memory and a paper tape. Type or click; Enter is equals, A adds to memory, Z subtracts, R recalls it. C clears the tape, Q quits.

@@ -1,0 +1,2 @@
+Notes
+A card file: notes, addresses, recipes, anything worth writing down. One card at a time, searched by typing. New makes a card, Delete removes it, and everything saves to /disk/notes.json as you go.

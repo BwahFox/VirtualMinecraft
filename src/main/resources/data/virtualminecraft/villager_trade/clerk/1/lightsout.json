@@ -1,0 +1,19 @@
+{
+  "wants": {
+    "id": "minecraft:emerald",
+    "count": 2
+  },
+  "gives": {
+    "id": "virtualminecraft:cd",
+    "components": {
+      "virtualminecraft:disk": {
+        "id": "e1947627-4f13-5d34-8f7a-5a6e305abba0",
+        "sizeMb": 0,
+        "iso": "cds:lightsout"
+      }
+    }
+  },
+  "max_uses": 8.0,
+  "reputation_discount": 0.05,
+  "xp": 5
+}

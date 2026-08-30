@@ -1,0 +1,5 @@
+{
+	"variants": {
+		"": { "model": "virtualminecraft:block/bus_bridge" }
+	}
+}

@@ -1,0 +1,17 @@
+The shell
+
+Open the Terminal. The prompt tells you where you are -- usually /disk, which is this machine's own storage.
+
+Type help and it lists every command. Type help followed by one of them and it explains that one properly, with its usage line. Those two are worth more than the rest of this page.
+
+Getting around: ls lists, cd changes directory, pwd says where you are, cat prints a file. cd on its own goes home; cd .. goes up; ~ means home.
+
+Handling files: cp copies, mv renames or moves, rm deletes (rm -r for a directory), mkdir makes one, touch makes an empty file, edit opens the editor.
+
+Running things: type the name of a program and it runs. run does the same thing explicitly, start opens a .lua file full-screen as a game, sh runs a file of shell lines, and apps lists what there is to run.
+
+Looking at the machine: top is memory, uptime and what the case is; df is the disks and how full they are; ps is what is running and kill stops it; date is the world's date.
+
+Looking at the world: rs is redstone, inv is the containers on the bus, world is where you are and what the weather is doing, net is the other computers you can reach.
+
+An = at the start of a line evaluates it as Lua and prints the answer, so =2+2 works and so does =os.info().mem. lua on its own drops you into Lua entirely, and exit comes back.

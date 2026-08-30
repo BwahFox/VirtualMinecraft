@@ -1,0 +1,2 @@
+Solitaire
+Klondike, draw one, unlimited redeals. The rules are on screen when it starts and H brings them back. Click a card and click where it goes; right-click sends one straight home. Space deals, A sends home all it can, N is a new game, Q quits.

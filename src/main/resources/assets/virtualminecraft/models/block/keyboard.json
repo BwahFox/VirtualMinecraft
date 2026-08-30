@@ -1,0 +1,22 @@
+{
+	"parent": "minecraft:block/block",
+	"textures": {
+		"particle": "virtualminecraft:block/keyboard_side",
+		"top": "virtualminecraft:block/keyboard_top",
+		"side": "virtualminecraft:block/keyboard_side"
+	},
+	"elements": [
+		{
+			"from": [1, 0, 4],
+			"to": [15, 2, 12],
+			"faces": {
+				"down": { "texture": "#side", "uv": [1, 4, 15, 12] },
+				"up": { "texture": "#top", "uv": [1, 4, 15, 12] },
+				"north": { "texture": "#side", "uv": [1, 14, 15, 16] },
+				"south": { "texture": "#side", "uv": [1, 14, 15, 16] },
+				"east": { "texture": "#side", "uv": [4, 14, 12, 16] },
+				"west": { "texture": "#side", "uv": [4, 14, 12, 16] }
+			}
+		}
+	]
+}

@@ -1,0 +1,17 @@
+pluginManagement {
+	repositories {
+		maven {
+			name = 'Fabric'
+			url = 'https://maven.fabricmc.net/'
+		}
+		mavenCentral()
+		gradlePluginPortal()
+	}
+}
+
+// Should match your modid
+rootProject.name = 'virtualminecraft'
+
+// The VR module (ROADMAP §9 U4.0): its own jar, so a build without it is a build with no Vivecraft anywhere near
+// it. Everything Vivecraft-facing lives there and nothing else does.
+include 'vr'

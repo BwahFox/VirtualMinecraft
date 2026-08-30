@@ -1,0 +1,12 @@
+{
+  "wants": {
+    "id": "minecraft:emerald",
+    "count": 24
+  },
+  "gives": {
+    "id": "virtualminecraft:hard_drive"
+  },
+  "max_uses": 3.0,
+  "reputation_discount": 0.05,
+  "xp": 30
+}

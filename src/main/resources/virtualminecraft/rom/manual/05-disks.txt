@@ -1,0 +1,15 @@
+Disks, and where things are kept
+
+Everything on this machine lives under a mount, and a path always starts with one. df lists them.
+
+/rom is built in and read-only. The kernel, the apps, this manual and the examples are here, and no amount of deleting will hurt it.
+
+/disk is this machine's own hard drive, if it has one. Your files, your saved games and the desktop's own notes go here.
+
+/fd0 and /fd1 are floppies in disk drives. /cd0 and /cd1 are CDs. A CD is read-only; a floppy is not.
+
+Put a Disk Drive block next to the computer, or on the same bus cable, and whatever you put in it turns up as a mount within a second or two. Take it out and it goes away again -- so do not leave a program's only copy on a floppy you are about to carry off.
+
+A disk that was written by another computer is refused until you format it -- the Files app has the button, and formatting erases it, which is the whole warning. df is where you look when you want to know how full something is.
+
+Files also burns a blank CD: put one in a drive, choose a mount, and it copies the lot onto the CD for good. That is how you hand a program to somebody else.

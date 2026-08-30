@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"key": {
+		"G": "minecraft:glass_pane",
+		"N": "minecraft:iron_nugget"
+	},
+	"pattern": [
+		"GN",
+		"NG"
+	],
+	"result": {
+		"id": "virtualminecraft:cd",
+		"count": 4
+	}
+}

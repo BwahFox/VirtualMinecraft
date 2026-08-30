@@ -1,0 +1,2 @@
+Sentry
+A radar for your base: who is near, how far, and a log of who came and went with the in-game time. A key arms an output, so a lever's worth of redstone can follow whoever walks up. Needs a world sensor on the bus.

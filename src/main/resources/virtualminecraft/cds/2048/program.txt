@@ -1,0 +1,2 @@
+2048
+A port of the sliding-tile game onto the Computer. Arrows or WASD slide, R restarts, Q quits.

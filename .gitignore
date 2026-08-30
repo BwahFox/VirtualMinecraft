@@ -1,0 +1,35 @@
+# gradle
+.gradle/
+build/
+out/
+classes/
+# idea / vscode / eclipse
+.idea/
+*.iml
+*.ipr
+*.iws
+.settings/
+.classpath
+.project
+bin/
+.vscode/
+# minecraft dev run dir
+run/
+# misc
+*.log
+
+# Native-client side project (its own git repo; never part of VirtualMinecraft)
+netherite/
+
+# python bytecode from the guest-image builder
+__pycache__/
+*.pyc
+
+# [name] reviews these by hand (2026-08-28); kept local, not in the repo
+screenshots/
+# rotated server logs land in repo-root logs/ when the dev server runs from here
+logs/
+
+# Third-party mod jars, never committed (HANDOFF's standing rule: we ship nobody else's code). Vivecraft lives
+# here so the vr module can compile against it -- `modCompileOnly files(...)` -- and it stays out of git.
+vivecraft/

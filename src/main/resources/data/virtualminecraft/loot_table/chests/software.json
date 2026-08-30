@@ -1,0 +1,412 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": {
+        "type": "minecraft:uniform",
+        "min": 2,
+        "max": 4
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "virtualminecraft:cd",
+          "weight": 6,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "virtualminecraft:disk": {
+                  "id": "283f0cad-e6c9-5573-b611-849f411a6b9d",
+                  "sizeMb": 0,
+                  "iso": "cds:pinball"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "virtualminecraft:cd",
+          "weight": 6,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "virtualminecraft:disk": {
+                  "id": "8453735c-bcb7-5982-9481-245e262436c0",
+                  "sizeMb": 0,
+                  "iso": "cds:maze"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "virtualminecraft:cd",
+          "weight": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "virtualminecraft:disk": {
+                  "id": "839902fe-c833-5d0e-8e78-528e85be1ae3",
+                  "sizeMb": 0,
+                  "iso": "cds:drift"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "virtualminecraft:cd",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "virtualminecraft:disk": {
+                  "id": "8df52556-02f3-5d1d-ac0d-58194a7edbeb",
+                  "sizeMb": 0,
+                  "iso": "cds:drift3d"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "virtualminecraft:cd",
+          "weight": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "virtualminecraft:disk": {
+                  "id": "8b31bf22-4d1d-58de-9489-e0a8dd0f07e9",
+                  "sizeMb": 0,
+                  "iso": "cds:barrage"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "virtualminecraft:cd",
+          "weight": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "virtualminecraft:disk": {
+                  "id": "a84b14e8-6c47-565c-a971-50440e9d9510",
+                  "sizeMb": 0,
+                  "iso": "cds:mines"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "virtualminecraft:cd",
+          "weight": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "virtualminecraft:disk": {
+                  "id": "26a3b42c-213b-555e-8cee-9235109cabdf",
+                  "sizeMb": 0,
+                  "iso": "cds:blocks"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "virtualminecraft:cd",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "virtualminecraft:disk": {
+                  "id": "f18a9f8b-c77e-5cdc-bad9-ace3c83f6490",
+                  "sizeMb": 0,
+                  "iso": "cds:2048"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "virtualminecraft:cd",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "virtualminecraft:disk": {
+                  "id": "3d87c170-3ddd-5282-9ab7-5017e0f03a92",
+                  "sizeMb": 0,
+                  "iso": "cds:solitaire"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "virtualminecraft:cd",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "virtualminecraft:disk": {
+                  "id": "e1947627-4f13-5d34-8f7a-5a6e305abba0",
+                  "sizeMb": 0,
+                  "iso": "cds:lightsout"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "virtualminecraft:cd",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "virtualminecraft:disk": {
+                  "id": "afea2d6a-c590-59fe-b1c6-4aaa3e993f92",
+                  "sizeMb": 0,
+                  "iso": "cds:hangman"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "virtualminecraft:cd",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "virtualminecraft:disk": {
+                  "id": "9e1e3e26-d71c-590c-b356-36322480b1ea",
+                  "sizeMb": 0,
+                  "iso": "cds:life"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "virtualminecraft:cd",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "virtualminecraft:disk": {
+                  "id": "3235edc1-c598-512e-b44f-65caea665269",
+                  "sizeMb": 0,
+                  "iso": "cds:calculator"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "virtualminecraft:cd",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "virtualminecraft:disk": {
+                  "id": "7a359e67-501f-51ff-9932-4980581bf751",
+                  "sizeMb": 0,
+                  "iso": "cds:notes"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "virtualminecraft:cd",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "virtualminecraft:disk": {
+                  "id": "555c19c4-ea7b-5a38-98b6-ab3029fd98a5",
+                  "sizeMb": 0,
+                  "iso": "cds:sheet"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "virtualminecraft:cd",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "virtualminecraft:disk": {
+                  "id": "79ac1b71-f525-52be-b84a-ba1402757ab5",
+                  "sizeMb": 0,
+                  "iso": "cds:sprite"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "virtualminecraft:cd",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "virtualminecraft:disk": {
+                  "id": "30f9acf6-a2c5-5fb7-805f-7662c0788f16",
+                  "sizeMb": 0,
+                  "iso": "cds:reader"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "virtualminecraft:cd",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "virtualminecraft:disk": {
+                  "id": "1886bde4-55c7-5892-b4eb-2bc302d960df",
+                  "sizeMb": 0,
+                  "iso": "cds:browser"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "virtualminecraft:cd",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "virtualminecraft:disk": {
+                  "id": "eb3bafa7-4a35-5e51-81f8-3216b58310c8",
+                  "sizeMb": 0,
+                  "iso": "cds:server"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "virtualminecraft:cd",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "virtualminecraft:disk": {
+                  "id": "97fc3d31-f7c3-5599-929d-66a24ced557e",
+                  "sizeMb": 0,
+                  "iso": "cds:keypad"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "virtualminecraft:cd",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "virtualminecraft:disk": {
+                  "id": "1ba7d73f-78c8-5f7a-ba1d-de0c1c82836d",
+                  "sizeMb": 0,
+                  "iso": "cds:sentry"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "virtualminecraft:floppy",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "virtualminecraft:disk": {
+                  "id": "00000000-0000-0000-0000-000000000000",
+                  "sizeMb": 1,
+                  "iso": "floppies:starter"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "virtualminecraft:cd",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:empty",
+          "weight": 2
+        }
+      ]
+    }
+  ]
+}

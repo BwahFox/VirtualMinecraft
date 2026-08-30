@@ -1,0 +1,2 @@
+Lights Out
+Press a light and its four neighbours flip with it. Turn them all off. Arrows and Space or click; N is the next level, R restarts this one, Q quits. Every board is solvable.

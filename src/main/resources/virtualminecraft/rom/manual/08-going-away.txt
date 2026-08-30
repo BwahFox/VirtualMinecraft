@@ -1,0 +1,15 @@
+Walking away, and coming back
+
+A computer nobody is near is written to a file and let go of. It costs the world nothing while it sleeps, which is the reason you may have as many of them as you like.
+
+Come back and it wakes. The desktop is as you left it, the windows are where they were, and the machine is told how long it was out -- you will see it say so.
+
+What does not survive on its own is a running program. A game you were playing is not paused; the machine was put in a file, and a half-run program cannot go in one.
+
+So a program comes back only if it says how, and the ones that matter do. 2048 keeps its board and its score. Nothing else needs to: a server's pages are on its disk, a text file is a text file.
+
+If you are writing one, page 9 says how -- it is three lines.
+
+And if what you want is a machine that starts something every time it wakes rather than resuming it, that is /disk/autostart.lua: one file, run at every boot, cold or thawed.
+
+Power. The case has a power button and so does the start menu. Sneak and right-click the block does the same. A machine switched off stays off; a machine asleep is not off.

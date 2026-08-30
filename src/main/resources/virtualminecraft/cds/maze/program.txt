@@ -1,0 +1,2 @@
+Maze
+A first-person maze, drawn the 1992 way: one ray per column, flat-shaded walls that fade with distance. Arrows walk and turn, A and D sidestep, M shows the map. Find the green door; every level is a new, bigger maze and the clock is your score. N starts over, Q quits.

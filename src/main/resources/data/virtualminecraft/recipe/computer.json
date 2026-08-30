@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"key": {
+		"I": "minecraft:iron_ingot",
+		"R": "minecraft:redstone",
+		"G": "minecraft:glass_pane",
+		"O": "minecraft:gold_ingot"
+	},
+	"pattern": [
+		"III",
+		"RGR",
+		"IOI"
+	],
+	"result": {
+		"id": "virtualminecraft:computer"
+	}
+}

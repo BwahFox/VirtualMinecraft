@@ -1,0 +1,13 @@
+What this is
+
+You are sitting at a computer that lives inside the world. It is not a menu with a computer drawn on it: it has memory, a processor, a disk and a screen, it runs programs, and it keeps running while you walk away.
+
+This manual is on the machine itself, because a manual you have to alt-tab for is a manual you do not read. Every page of it is short. Press Next to go on, Contents to jump about, and Close when you would rather find out by pressing things -- which is also a good way to use this.
+
+Three things worth knowing before anything else.
+
+The case is a box. What the machine IS comes out of the parts you put in it: memory, a processor, a graphics card and a hard drive. A case with nothing in it does not switch on, and it tells you so.
+
+Nothing you do here can break the world. The worst a program can do is stop working, and closing it fixes that.
+
+You can write your own. Everything on this machine is Lua, most of it is a few hundred lines, and the ones that came with it are meant to be read. Page 9 is where that starts.

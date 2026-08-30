@@ -1,0 +1,2 @@
+Hangman
+Guess the word a letter at a time before the drawing finishes. Type a letter or click it; Enter deals a new word, Q quits. When a round ends any letter starts the next one. The word list is a text file - copy /cd0/words.txt to /disk/words.txt to use your own.

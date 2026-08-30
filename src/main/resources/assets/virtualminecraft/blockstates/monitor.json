@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": { "model": "virtualminecraft:block/monitor" },
+		"facing=east": { "model": "virtualminecraft:block/monitor", "y": 90 },
+		"facing=south": { "model": "virtualminecraft:block/monitor", "y": 180 },
+		"facing=west": { "model": "virtualminecraft:block/monitor", "y": 270 }
+	}
+}

@@ -1,0 +1,9 @@
+{
+	"parent": "minecraft:block/cube_bottom_top",
+	"textures": {
+		"particle": "virtualminecraft:block/bus_bridge",
+		"bottom": "virtualminecraft:block/bus_bridge",
+		"top": "virtualminecraft:block/bus_bridge_top",
+		"side": "virtualminecraft:block/bus_bridge"
+	}
+}

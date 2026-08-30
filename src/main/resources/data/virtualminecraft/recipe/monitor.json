@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"key": {
+		"G": "minecraft:glass_pane",
+		"I": "minecraft:iron_ingot",
+		"R": "minecraft:redstone",
+		"D": "minecraft:glowstone_dust"
+	},
+	"pattern": [
+		"GGG",
+		"IRI",
+		"IDI"
+	],
+	"result": {
+		"id": "virtualminecraft:monitor"
+	}
+}

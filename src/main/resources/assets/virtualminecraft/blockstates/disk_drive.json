@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": { "model": "virtualminecraft:block/disk_drive" },
+		"facing=east": { "model": "virtualminecraft:block/disk_drive", "y": 90 },
+		"facing=south": { "model": "virtualminecraft:block/disk_drive", "y": 180 },
+		"facing=west": { "model": "virtualminecraft:block/disk_drive", "y": 270 }
+	}
+}

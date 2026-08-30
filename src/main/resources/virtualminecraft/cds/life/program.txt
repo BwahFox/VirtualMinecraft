@@ -1,0 +1,2 @@
+Life
+Conway's Game of Life. Drag to draw cells, space runs and pauses, S steps once. B stamps a pattern and N cycles which one - glider, pulsar, acorn, Gosper glider gun and more; right-click places one where you point. C clears, R randomises, G toggles the grid, L saves and K loads. The edges wrap. H shows the rules.

@@ -1,0 +1,2 @@
+Server
+Serves pages to other computers over the net component. Pages are text files in /disk/site; the first run writes a small site that explains the markup. Leave it running and any machine within reach can read it. L lists pages and hits, Q quits.

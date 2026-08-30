@@ -1,0 +1,19 @@
+{
+	"variants": {
+		"facing=north": {
+			"model": "virtualminecraft:block/advanced_computer"
+		},
+		"facing=east": {
+			"model": "virtualminecraft:block/advanced_computer",
+			"y": 90
+		},
+		"facing=south": {
+			"model": "virtualminecraft:block/advanced_computer",
+			"y": 180
+		},
+		"facing=west": {
+			"model": "virtualminecraft:block/advanced_computer",
+			"y": 270
+		}
+	}
+}

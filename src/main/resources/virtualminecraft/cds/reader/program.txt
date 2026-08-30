@@ -1,0 +1,2 @@
+Reader
+For long text. Finds every document on the machine, wraps it to the window and remembers where you stopped in each one. Mark keeps a named place, Find searches, and the Library lists both.

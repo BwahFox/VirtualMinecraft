@@ -1,0 +1,2 @@
+Mines
+Clear the field without setting one off. Left button opens a square, right button flags it; the first square you open is never a mine. Arrows and Space work too, F flags, R starts again, Q quits.

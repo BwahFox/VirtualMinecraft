@@ -1,0 +1,22 @@
+{
+	"parent": "minecraft:block/block",
+	"textures": {
+		"particle": "virtualminecraft:block/bus_cable",
+		"cable": "virtualminecraft:block/bus_cable"
+	},
+	"__comment": "No cullface anywhere here: the core is a 6x6x6 cube at 5..11, so none of its faces lie on the block boundary. cullface culls against the NEIGHBOUR's occlusion, which meant every face touching a solid block was thrown away and the cable had holes in it wherever it ran along a wall or a floor. cullface is correct only on the arms, whose end caps really are flush with the boundary.",
+	"elements": [
+		{
+			"from": [5, 5, 5],
+			"to": [11, 11, 11],
+			"faces": {
+				"down":  { "texture": "#cable", "uv": [5, 5, 11, 11] },
+				"up":    { "texture": "#cable", "uv": [5, 5, 11, 11] },
+				"north": { "texture": "#cable", "uv": [5, 5, 11, 11] },
+				"south": { "texture": "#cable", "uv": [5, 5, 11, 11] },
+				"west":  { "texture": "#cable", "uv": [5, 5, 11, 11] },
+				"east":  { "texture": "#cable", "uv": [5, 5, 11, 11] }
+			}
+		}
+	]
+}

@@ -1,0 +1,12 @@
+{
+	"parent": "minecraft:block/cube",
+	"textures": {
+		"particle": "virtualminecraft:block/advanced_computer_side",
+		"down": "virtualminecraft:block/advanced_computer_top",
+		"up": "virtualminecraft:block/advanced_computer_top",
+		"north": "virtualminecraft:block/advanced_computer_front",
+		"south": "virtualminecraft:block/advanced_computer_back",
+		"east": "virtualminecraft:block/advanced_computer_side",
+		"west": "virtualminecraft:block/advanced_computer_side"
+	}
+}

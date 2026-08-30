@@ -1,0 +1,2 @@
+Sprite
+A sprite sheet editor. Draw a grid of tiles, keep them in one sheet, and Export writes a Lua file your game loads with one line — sheet.draw(x, y, n) puts tile n on the screen. Paint draws pictures; this makes assets.

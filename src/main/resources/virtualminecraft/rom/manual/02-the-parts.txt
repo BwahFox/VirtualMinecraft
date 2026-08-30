@@ -1,0 +1,15 @@
+The parts, and the case
+
+Right-click the case and it opens: four slots along the top -- RAM, CPU, GFX, HDD -- your own inventory below, and under the slots a line saying what the machine adds up to right now.
+
+Memory and a processor are the minimum. Without them nothing happens at all, and the screen says which one is missing rather than sitting there looking broken.
+
+A graphics card gives it a picture. Without one the machine runs perfectly well; it simply has nowhere to draw, and a monitor wired to it says so.
+
+A hard drive gives it a /disk of its own. Without one it still boots -- from the ROM, which is built in and read-only -- and a floppy or a CD is then your only place to keep things.
+
+Parts come in I, II and III. The case does not decide what you get; it decides how far you may go. A Memory III in a Basic Computer gives you the Basic Computer's ceiling, not its own -- it is not refused, it is just capped, and it still works. So a bigger case is worth having when your parts have outgrown the one you started in, and not before.
+
+Hover any slot and it tells you the ceiling before you commit.
+
+There are three cases. A Basic Computer is small and boots straight to the shell -- no desktop, no icons, the prompt filling the screen. A Computer is the middle one and the one most things are written for. An Advanced Computer is the big one: more memory, a bigger picture, more of a processor core to itself.

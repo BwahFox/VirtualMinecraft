@@ -1,0 +1,2 @@
+Sheet
+A spreadsheet: a grid, formulas and a chart. Type numbers and text, start a cell with = for a formula, and SUM, AVG, MIN, MAX, COUNT and IF do the rest. Select a range to see its total, and Chart draws it as bars.
